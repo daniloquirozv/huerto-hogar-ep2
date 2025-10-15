@@ -1,0 +1,174 @@
+/* ======================================== 
+   ESTILOS PARA FOOTER ECO
+   ======================================== */
+
+/* Variables CSS para el footer eco */
+:root {
+  --verde-esmeralda: #2E8B57;
+  --amarillo-mostaza: #f4d03f;
+}
+
+/* Estilos para información de contacto en footer */
+.footer-info-contacto {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.contacto-item {
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.contacto-item:hover {
+  color: white;
+  transform: translateX(5px);
+}
+
+.contacto-item i {
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* Estilos específicos para el mapa de Google en el footer */
+.footer-google-maps {
+  border-radius: 16px !important;
+  overflow: hidden;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12) !important;
+  transition: all 0.4s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.footer-google-maps:hover {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18) !important;
+  transform: translateY(-2px);
+}
+
+.google-maps-footer {
+  border-radius: 16px !important;
+}
+
+.google-maps-footer .maps-header {
+  background: linear-gradient(135deg, #2E8B57 0%, #28a745 100%) !important;
+}
+
+.google-maps-footer .stores-list {
+  max-height: 180px !important;
+}
+
+.google-maps-footer .store-item {
+  padding: 8px !important;
+  margin-bottom: 6px !important;
+}
+
+.google-maps-footer .store-name {
+  font-size: 0.8rem !important;
+}
+
+.google-maps-footer .store-address-short,
+.google-maps-footer .store-phone-short {
+  font-size: 0.7rem !important;
+}
+
+/* Footer Eco - Unificado */
+.footer-eco {
+    background: linear-gradient(135deg, var(--verde-esmeralda) 80%, #37714b 100%) !important;
+    color: #fff !important;
+    font-family: 'Montserrat', Arial, sans-serif !important;
+    border-top-left-radius: 36px !important;
+    border-top-right-radius: 36px !important;
+    box-shadow: 0 -4px 24px rgba(60, 120, 40, 0.09) !important;
+    margin-top: 48px !important;
+}
+
+.footer-eco .eco-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--amarillo-mostaza);
+    letter-spacing: 1px;
+}
+
+.footer-eco .footer-list li {
+    margin-bottom: 0.35em;
+    font-size: 1rem;
+}
+
+.footer-eco .footer-list {
+    padding-left: 8px;
+}
+
+.footer-eco .footer-mapa {
+    border: 3px solid var(--amarillo-mostaza);
+    box-shadow: 0 2px 14px rgba(60, 120, 40, 0.10);
+    min-height: 400px;
+}
+
+.footer-eco .footer-mapa iframe {
+    min-height: 400px;
+}
+
+/* Separación entre columnas del footer */
+.footer-eco .col-lg-4 {
+    position: relative;
+}
+
+/* Línea divisoria vertical entre columnas en pantallas grandes */
+@media (min-width: 992px) {
+    .footer-eco .col-lg-4:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: 10%;
+        right: 0;
+        width: 1px;
+        height: 80%;
+        background: rgba(255, 255, 255, 0.2);
+    }
+}
+
+.footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+
+.footer-social .social-link {
+    color: var(--amarillo-mostaza);
+    background: #225528;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    transition: .2s, color .2s, transform .2s;
+    box-shadow: 0 2px 8px rgba(60, 120, 40, 0.08);
+}
+
+.footer-social .social-link:hover {
+    background: var(--amarillo-mostaza);
+    color: var(--verde-esmeralda);
+    transform: scale(1.11) rotate(-4deg);
+    text-decoration: none;
+}
+
+.footer-logo {
+    filter: drop-shadow(0 2px 12px rgba(255, 255, 255, 0.12));
+    transition: transform .18s;
+}
+
+.footer-logo:hover {
+    transform: scale(1.07) rotate(-2deg);
+}
+
+.leaflet-container {
+  height: 400px !important;
+  width: 100% !important;
+  border-radius: 16px;
+}

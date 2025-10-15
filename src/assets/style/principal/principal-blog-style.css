@@ -1,0 +1,279 @@
+/* ======================================== 
+   ESTILOS PARA BLOG Y PROMOCIONES
+   ======================================== */
+
+/* Sección de Blog y Promociones Mejorada */
+.blog-promo-mejorada {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 4rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.blog-promo-mejorada::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%2328a745" fill-opacity="0.05"><circle cx="30" cy="30" r="4"/></g></svg>');
+    pointer-events: none;
+}
+
+.blog-promo-content {
+    position: relative;
+    z-index: 2;
+}
+
+.promo-badge {
+    animation: bounceIn 1s ease-out;
+}
+
+.blog-promo-title-new {
+    color: #2c3e50;
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    animation: slideInLeft 0.8s ease-out;
+}
+
+.blog-promo-subtitle-new {
+    color: #28a745;
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    animation: slideInLeft 0.8s ease-out 0.2s both;
+}
+
+.blog-promo-text-new {
+    color: #495057;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    animation: slideInLeft 0.8s ease-out 0.4s both;
+}
+
+/* Estadísticas */
+.blog-promo-stats {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: slideInUp 0.8s ease-out 0.6s both;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #28a745;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-weight: 600;
+    margin-top: 0.25rem;
+}
+
+/* Botones de acción */
+.blog-promo-actions {
+    margin-bottom: 2rem;
+    animation: slideInUp 0.8s ease-out 0.8s both;
+}
+
+.blog-promo-btn-new {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    transition: all 0.3s ease;
+}
+
+.blog-promo-btn-new:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+}
+
+.ofertas-btn {
+    border: 2px solid #28a745;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.ofertas-btn:hover {
+    background: #28a745;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+}
+
+/* Noticias mejoradas */
+.blog-promo-news-new {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+    border: 2px solid #f39c12;
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: slideInUp 0.8s ease-out 1s both;
+}
+
+/* Estilos para la imagen/logo promocional */
+.promo-image-container {
+    position: relative;
+    text-align: center;
+    padding: 2rem;
+}
+
+.blog-promo-logo-new {
+    max-width: 300px;
+    height: auto;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15));
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Badges flotantes */
+.floating-badges {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.floating-badge {
+    position: absolute;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: floatingBadge 4s ease-in-out infinite;
+}
+
+.badge-1 {
+    top: 20%;
+    right: 10%;
+    animation-delay: 0s;
+}
+
+.badge-2 {
+    top: 60%;
+    left: 5%;
+    animation-delay: 1s;
+}
+
+.badge-3 {
+    bottom: 20%;
+    right: 20%;
+    animation-delay: 2s;
+}
+
+/* Animaciones para Blog y Promociones */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Media Queries para Blog y Promociones */
+@media (max-width: 768px) {
+  .blog-promo-mejorada {
+    padding: 2rem 0;
+  }
+  
+  .blog-promo-title-new {
+    font-size: 2rem;
+    text-align: center;
+  }
+  
+  .blog-promo-subtitle-new {
+    font-size: 1.1rem;
+    text-align: center;
+  }
+  
+  .blog-promo-text-new {
+    text-align: center;
+    font-size: 1rem;
+  }
+  
+  .blog-promo-actions {
+    text-align: center;
+  }
+  
+  .blog-promo-btn-new {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .ofertas-btn {
+    width: 100%;
+  }
+  
+  .blog-promo-logo-new {
+    max-width: 200px;
+  }
+  
+  .blog-promo-news-new {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  
+  .blog-promo-logo-new {
+    max-width: 200px;
+  }
+  
+  .floating-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}

@@ -1,0 +1,121 @@
+/* ======================================== 
+   ESTILOS PARA PODIO
+   ======================================== */
+
+/* Podio */
+.podio-section {
+  margin: 2rem 0;
+  padding: 2rem 0;
+  border-radius: 32px;
+  box-shadow: 0 4px 24px rgba(60,80,220,0.08);
+}
+
+.podio-title {
+  font-weight: bold;
+  font-size: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.podio-trophy {
+  color: #FFD700;
+  font-size: 2.4rem;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.podio-col {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.podio-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.podio-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 8px 30px rgba(60,80,220,0.18);
+}
+
+.podio-img {
+  height: 240px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 18px 18px 0 0;
+  padding: 1rem;
+}
+
+/* Podio steps (escalones) */
+.podio-step {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 0 0 18px 18px;
+  z-index: 0;
+}
+
+.podio-step-gold {
+  background: #ffe082;
+  height: 70px;
+  width: 80%;
+  box-shadow: 0 2px 14px rgba(255,215,0,0.08);
+}
+
+.podio-step-silver {
+  background: #cfd8dc;
+  height: 50px;
+  width: 65%;
+}
+
+.podio-step-bronze {
+  background: #bcaaa4;
+  height: 50px;
+  width: 60%;
+}
+
+.podio-card-gold {
+  transform: translateY(-32px);
+}
+
+.podio-card-silver {
+  transform: translateY(8px);
+}
+
+.podio-card-bronze {
+  transform: translateY(16px);
+}
+
+/* Colores y tipos */
+.podio-title-gold {
+  color: #FFD700;
+  font-size: 1.33rem;
+  font-weight: 700;
+}
+
+.podio-title-silver {
+  color: #C0C0C0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.podio-title-bronze {
+  color: #CD7F32;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+/* Media Queries para Podio */
+@media (max-width: 900px) {
+  .podio-img {
+    height: 160px;
+  }
+  .podio-title {
+    font-size: 1.5rem;
+  }
+}

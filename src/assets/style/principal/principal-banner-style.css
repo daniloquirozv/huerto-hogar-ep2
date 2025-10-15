@@ -1,0 +1,330 @@
+/* ======================================== 
+   ESTILOS PARA BANNER DE DESCUENTOS
+   ======================================== */
+
+/* Estilos para Banner de Descuentos */
+.banner-descuentos-section {
+    padding: 1rem 0;
+    background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+}
+
+.banner-descuentos {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 3px solid #28a745;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(40, 167, 69, 0.2);
+    margin-bottom: 0;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    animation: slideInDown 0.8s ease-out;
+}
+
+.banner-descuentos.urgente {
+    border-color: #dc3545;
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%);
+    animation: urgenteBanner 2s infinite;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes urgenteBanner {
+    0%, 100% { 
+        border-color: #dc3545;
+        box-shadow: 0 8px 30px rgba(220, 53, 69, 0.2);
+    }
+    50% { 
+        border-color: #ff6b7a;
+        box-shadow: 0 12px 40px rgba(220, 53, 69, 0.4);
+    }
+}
+
+/* Badge de descuento circular */
+.descuento-badge {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    margin: 0 auto;
+    position: relative;
+    animation: rotateBadge 6s linear infinite;
+}
+
+@keyframes rotateBadge {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.descuento-porcentaje {
+    font-size: 1.8rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.descuento-texto {
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: -2px;
+}
+
+/* Contenido del banner */
+.banner-contenido {
+    text-align: left;
+}
+
+.banner-titulo {
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    font-size: 1.4rem;
+}
+
+.banner-descripcion {
+    color: #495057;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.banner-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Sección de acción */
+.banner-accion {
+    text-align: center;
+}
+
+.cupon-container {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+    border: 2px dashed #f39c12;
+    border-radius: 12px;
+    padding: 1rem;
+    position: relative;
+}
+
+.cupon-codigo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.cupon-label {
+    font-size: 0.85rem;
+    color: #856404;
+    font-weight: 600;
+}
+
+.cupon-valor {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #e67e22;
+    letter-spacing: 1px;
+    font-family: 'Courier New', monospace;
+}
+
+.cupon-btn {
+    transition: all 0.3s ease;
+    font-weight: 600;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cupon-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-aprovechar {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-aprovechar:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+    background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+}
+
+/* Indicadores de promociones múltiples */
+.promociones-indicadores {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.indicador {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(40, 167, 69, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicador.activo {
+    background: #28a745;
+    transform: scale(1.2);
+}
+
+.indicador:hover {
+    background: #20c997;
+    transform: scale(1.1);
+}
+
+/* Efectos adicionales */
+.banner-descuentos::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shine 4s infinite;
+    pointer-events: none;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+/* Animaciones de entrada */
+.descuento-badge {
+    animation: bounceIn 1s ease-out 0.5s both;
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.banner-contenido {
+    animation: fadeInLeft 0.8s ease-out 0.3s both;
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.banner-accion {
+    animation: fadeInRight 0.8s ease-out 0.6s both;
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Estados especiales */
+.banner-descuentos.urgente .descuento-badge {
+    background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
+    animation: urgentePulse 1.5s infinite, rotateBadge 6s linear infinite;
+}
+
+@keyframes urgentePulse {
+    0%, 100% { 
+        transform: scale(1) rotate(0deg);
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+    }
+    50% { 
+        transform: scale(1.1) rotate(180deg);
+        box-shadow: 0 8px 25px rgba(220, 53, 69, 0.5);
+    }
+}
+
+/* Media Queries para Banner de Descuentos */
+@media (max-width: 768px) {
+    .banner-descuentos {
+        padding: 1rem;
+        text-align: center;
+    }
+    
+    .banner-contenido {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    
+    .banner-titulo {
+        font-size: 1.2rem;
+    }
+    
+    .descuento-badge {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 1rem;
+    }
+    
+    .descuento-porcentaje {
+        font-size: 1.4rem;
+    }
+    
+    .cupon-container {
+        margin-bottom: 1rem;
+    }
+    
+    .btn-aprovechar {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.75rem;
+    }
+    
+    .banner-meta {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}

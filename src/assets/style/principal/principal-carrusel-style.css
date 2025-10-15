@@ -1,0 +1,105 @@
+/* ======================================== 
+   ESTILOS PARA CARRUSEL
+   ======================================== */
+
+/* Estilo Carrusel - Optimizado */
+.catalogo-container {
+  padding-left: 2vw;
+  padding-right: 2vw;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.carrusel-ancho {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+/* Estilo mejorado para el carousel simple */
+.carousel-item img {
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.carousel-item img:hover {
+  transform: scale(1.02);
+}
+
+/* Mejorar la legibilidad del caption */
+.carousel-caption {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  padding: 20px;
+  bottom: 30px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 600px;
+}
+
+.carousel-caption h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.carousel-caption p {
+  font-size: 1.1rem;
+  margin-bottom: 0;
+  color: #f8f9fa;
+}
+
+/* Controles del carousel */
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+  opacity: 0.8;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  opacity: 1;
+}
+
+/* Indicadores */
+.carousel-indicators {
+  bottom: 10px;
+}
+
+.carousel-indicators [data-bs-target] {
+  background-color: #28a745;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin: 0 5px;
+}
+
+/* Media Queries para Carrusel */
+@media (max-width: 768px) {
+  .catalogo-container {
+    padding-left: 1vw;
+    padding-right: 1vw;
+  }
+  
+  .carousel-caption {
+    bottom: 15px;
+    width: 90%;
+    padding: 15px;
+  }
+  
+  .carousel-caption h3 {
+    font-size: 1.4rem;
+  }
+  
+  .carousel-caption p {
+    font-size: 0.95rem;
+  }
+  
+  .carousel-item img {
+    border-radius: 10px;
+  }
+}
