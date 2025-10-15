@@ -1,0 +1,9 @@
+/* Archivo principal de estilos - Consolida imports de otros archivos CSS */
+
+/* Importar todos los estilos modulares */
+@import './principal-base-style.css';
+@import './principal-banner-style.css';
+@import './principal-carrusel-style.css';
+@import './principal-podio-style.css';
+@import './principal-maps-style.css';
+@import './principal-footer-style.css';

@@ -11,7 +11,7 @@ export default function Header() {
     const [showMenu, setShowMenu] = useState(false);
     const [showCart, setShowCart] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
-    const cartItems = []; // Vacío para mostrar el mensaje, o con items
+    const cartItems = []; // Vacío para mostrar el mensaje, o con items 
 
     // Función para hacer scroll al footer de contacto
     const scrollToContacto = () => {
@@ -26,7 +26,6 @@ export default function Header() {
             }
         }, 100);
     };
-    
 
     return (
         <>
@@ -54,10 +53,10 @@ export default function Header() {
                     </div>
                     {/* Menú principal - oculto en pantallas pequeñas */}
                     <Nav className="menu-centro mx-auto d-none d-lg-flex">
-                        <Nav.Link as={Link} to="/menu">Inicio</Nav.Link>
-                        <Nav.Link href="#productos">Productos</Nav.Link>
+                        <Nav.Link as={Link} to="/">Inicio</Nav.Link>
+                        <Nav.Link href="/productos">Productos</Nav.Link>
                         <Nav.Link as={Link} to="/blog">Blog</Nav.Link>
-                        <Nav.Link 
+                        <Nav.Link
                             href="#contacto"
                             onClick={(e) => {
                                 e.preventDefault();
@@ -90,6 +89,8 @@ export default function Header() {
                                 }}
                             >
                                 {cartItems.length}
+                                {/* Ocultar el carrito si estamos en la página del carrito */}
+
                             </span>
                         </Nav.Link>
                     </Nav>
@@ -97,8 +98,8 @@ export default function Header() {
             </Navbar>
             <CarritoMenu show={showCart} handleClose={() => setShowCart(false)} carritoItems={cartItems} />
             <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} />
-            <BarraMenu 
-                show={showMenu} 
+            <BarraMenu
+                show={showMenu}
                 onHide={() => setShowMenu(false)}
                 onShowLogin={() => setShowLogin(true)}
                 onShowCart={() => setShowCart(true)}

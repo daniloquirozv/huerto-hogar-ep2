@@ -1,0 +1,263 @@
+:root {
+    --bg-principal: #F7F7F7;
+    --verde-esmeralda: #2E8B57;
+    --amarillo-mostaza: #FFD700;
+    --marron-claro: #8B4513;
+    --texto-principal: #333333;
+    --texto-secundario: #666666;
+}
+
+body {
+    background-image: url('../images/Productos/FondoHTML.png');
+    background-repeat: repeat;
+    background-color: var(--bg-principal);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+p {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Estilos personalizados */
+
+
+/* Buscador productos */
+#buscar {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    min-height: auto;
+    box-shadow: 0 10px 30px rgba(60, 120, 40, 0.08);
+}
+
+#buscar .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(86, 177, 77, 0.5) 25%, rgba(255, 255, 255, 0.7) 75%);
+    z-index: 1;
+}
+
+#buscar .contenido-buscar {
+    position: relative;
+    z-index: 2;
+    color: var(--verde-esmeralda);
+    padding: 2rem 1rem;
+    backdrop-filter: blur(1.5px);
+}
+
+
+/* Navbar superior */
+.navbar {
+    background-color: var(--verde-esmeralda);
+}
+
+.navbar-nav {
+    margin: 0 auto;
+}
+
+#navbarNavAltMarkup .navbar-nav {
+    justify-content: center;
+    width: 100%;
+    display: flex;
+}
+
+
+/* Descripcion */
+.category-section {
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+.category-title {
+    font-size: 2.5rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    background-color: var(--verde-esmeralda);
+}
+
+.category-description {
+    color: var(--texto-secundario);
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 50px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+
+/* Cards productos */
+.product-card {
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(46, 139, 87, 0.2);
+}
+
+.card-img-top {
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.card-body {
+    padding: 25px;
+}
+
+.product-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--marron-claro);
+}
+
+.product-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--verde-esmeralda);
+    margin-bottom: 10px;
+}
+
+.product-stock {
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.product-description {
+    color: var(--texto-secundario);
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.product-code {
+    background: var(--verde-esmeralda);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.stock-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--amarillo-mostaza);
+    color: var(--texto-principal);
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+
+/* Boton productos */
+.btn-add-cart {
+    background: var(--verde-esmeralda);
+    border: none;
+    padding: 12px 30px;
+    font-weight: 600;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+
+/* Footer o pie de pagina */
+.footer-eco {
+    background: linear-gradient(135deg, var(--verde-esmeralda) 80%, #37714b 100%);
+    color: #fff;
+    font-family: 'Montserrat', Arial, sans-serif;
+    border-top-left-radius: 36px;
+    border-top-right-radius: 36px;
+    box-shadow: 0 -4px 24px rgba(60, 120, 40, 0.09);
+    margin-top: 48px;
+}
+
+.footer-eco .eco-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--amarillo-mostaza);
+    letter-spacing: 1px;
+}
+
+.footer-eco .footer-list li {
+    margin-bottom: 0.35em;
+    font-size: 1rem;
+}
+
+.footer-eco .footer-list {
+    padding-left: 8px;
+}
+
+.footer-eco .footer-mapa {
+    border: 3px solid var(--amarillo-mostaza);
+    box-shadow: 0 2px 14px rgba(60, 120, 40, 0.10);
+}
+
+.footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+
+.footer-social .social-link {
+    color: var(--amarillo-mostaza);
+    background: #225528;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    transition: .2s, color .2s, transform .2s;
+    box-shadow: 0 2px 8px rgba(60, 120, 40, 0.08);
+}
+
+.footer-social .social-link:hover {
+    background: var(--amarillo-mostaza);
+    color: var(--verde-esmeralda);
+    transform: scale(1.11) rotate(-4deg);
+    text-decoration: none;
+}
+
+.footer-logo {
+    filter: drop-shadow(0 2px 12px rgba(255, 255, 255, 0.12));
+    transition: transform .18s;
+}
+
+.footer-logo:hover {
+    transform: scale(1.07) rotate(-2deg);
+}

@@ -16,13 +16,13 @@ export default function CarritoMenu({ show, handleClose, carritoItems = [], onRe
     }
 
     const handleDecreaseQuantity = (codigo, currentQuantity) => {
-        if (currentQuantity > 1){
+        if (currentQuantity > 1) {
             onUpdateQuantity(codigo, currentQuantity - 1);
         } else {
             onRemoveFromCart(codigo);
         }
     }
-    
+
     const handleRemove = (codigo) => {
         if (window.confirm("¿Estás seguro de eliminar este producto del carrito?")) {
             onRemoveFromCart(codigo);
@@ -54,12 +54,12 @@ export default function CarritoMenu({ show, handleClose, carritoItems = [], onRe
                                 {validCarritoItems.map((item, idx) => (
                                     <ListGroup.Item key={idx} className="p-3">
                                         <div className="d-flex align-items-start">
-                                            <img 
-                                                src={item.imagen} 
+                                            <img
+                                                src={item.imagen}
                                                 alt={item.nombre}
-                                                style={{ 
-                                                    width: '60px', 
-                                                    height: '60px', 
+                                                style={{
+                                                    width: '60px',
+                                                    height: '60px',
                                                     objectFit: 'cover',
                                                     borderRadius: '8px'
                                                 }}
@@ -73,8 +73,8 @@ export default function CarritoMenu({ show, handleClose, carritoItems = [], onRe
                                                             ${item.precio.toLocaleString('es-CL')} CLP/{item.unidad}
                                                         </small>
                                                     </div>
-                                                    <Button 
-                                                        variant="link" 
+                                                    <Button
+                                                        variant="link"
                                                         className="text-danger p-0"
                                                         onClick={() => handleRemove(item.codigo)}
                                                         style={{ fontSize: '1.2rem' }}
@@ -82,23 +82,23 @@ export default function CarritoMenu({ show, handleClose, carritoItems = [], onRe
                                                         <i className="bi bi-trash"></i>
                                                     </Button>
                                                 </div>
-                                                
+
                                                 <div className="d-flex justify-content-between align-items-center mt-2">
                                                     <ButtonGroup size="sm">
-                                                        <Button 
+                                                        <Button
                                                             variant="outline-success"
                                                             onClick={() => handleDecreaseQuantity(item.codigo, item.quantity)}
                                                         >
                                                             <i className="bi bi-dash"></i>
                                                         </Button>
-                                                        <Button 
-                                                            variant="outline-success" 
+                                                        <Button
+                                                            variant="outline-success"
                                                             disabled
                                                             style={{ minWidth: '60px' }}
                                                         >
                                                             {item.quantity}
                                                         </Button>
-                                                        <Button 
+                                                        <Button
                                                             variant="outline-success"
                                                             onClick={() => handleIncreaseQuantity(item.codigo, item.quantity)}
                                                         >
@@ -118,7 +118,7 @@ export default function CarritoMenu({ show, handleClose, carritoItems = [], onRe
                                 ))}
                             </ListGroup>
                         </div>
-                        
+
                         <div className="border-top pt-3">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h5 className="mb-0">Total:</h5>
@@ -127,15 +127,15 @@ export default function CarritoMenu({ show, handleClose, carritoItems = [], onRe
                                 </h4>
                             </div>
                             <div className="d-flex gap-2">
-                                <Button 
-                                    variant="outline-success" 
+                                <Button
+                                    variant="outline-success"
                                     className="flex-grow-1"
                                     onClick={handleClose}
                                 >
                                     Seguir comprando
                                 </Button>
-                                <Button 
-                                    variant="success" 
+                                <Button
+                                    variant="success"
                                     className="flex-grow-1"
                                     onClick={() => {
                                         handleClose();
