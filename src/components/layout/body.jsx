@@ -112,7 +112,7 @@ export default function Body() {
                                     to="/blog" 
                                     variant="success" 
                                     size="lg"
-                                    className="blog-promo-btn-new me-3"
+                                    className="blog-promo-btn-new me-3 mb-3"
                                 >
                                     <i className="bi bi-book-half me-2"></i>
                                     Explorar Blog
@@ -121,7 +121,7 @@ export default function Body() {
                                     variant="outline-success" 
                                     size="lg"
                                     className="ofertas-btn"
-                                    href="#productos"
+                                    href="/productos"
                                 >
                                     <i className="bi bi-tags-fill me-2"></i>
                                     Ver Ofertas

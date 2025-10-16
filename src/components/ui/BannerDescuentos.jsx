@@ -99,7 +99,7 @@ const BannerDescuentos = () => {
                                 <Button 
                                     variant="success" 
                                     className="btn-aprovechar"
-                                    href="#productos"
+                                    href="/productos"
                                 >
                                     <i className="bi bi-cart-plus me-2"></i>
                                     ¡Aprovechar Oferta!
