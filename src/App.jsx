@@ -3,7 +3,7 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import ProductoPage from './pages/productosPage';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PrincipalPage from './pages/principalPage';
 import Blog from './pages/blogPage';
 import CarritoPage from './pages/CarritoPage'; 
@@ -11,8 +11,25 @@ import AdminPage from './pages/AdminPage';
 import RegistroPage from './pages/RegistroPage';
 
 function App() {
-  // Estado global del carrito
-  const [cartItems, setCartItems] = useState([]);
+  // Estado global del carrito - inicializado desde localStorage
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      const savedCart = localStorage.getItem('huertoHogarCart');
+      return savedCart ? JSON.parse(savedCart) : [];
+    } catch (error) {
+      console.error('Error al cargar el carrito desde localStorage:', error);
+      return [];
+    }
+  });
+
+  // Guardar el carrito en localStorage cada vez que cambie
+  useEffect(() => {
+    try {
+      localStorage.setItem('huertoHogarCart', JSON.stringify(cartItems));
+    } catch (error) {
+      console.error('Error al guardar el carrito en localStorage:', error);
+    }
+  }, [cartItems]);
 
   // Agregar producto al carrito
   const handleAddToCart = (producto, quantity) => {
@@ -45,6 +62,7 @@ function App() {
   // Vaciar carrito
   const handleClearCart = () => {
     setCartItems([]);
+    localStorage.removeItem('huertoHogarCart');
   };
   return (
     <Routes>

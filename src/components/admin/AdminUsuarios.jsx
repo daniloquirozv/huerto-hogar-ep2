@@ -1,41 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Row, Col, Alert, Badge } from 'react-bootstrap';
+import { getUsers } from '../../data/user';
+
+// Clave de localStorage para usuarios
+const STORAGE_KEY = 'huerto_users_v1';
+
+// Función para cargar usuarios desde localStorage
+const loadUsersFromStorage = () => {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        // Transformar formato de user.js al formato de AdminUsuarios
+        return Array.isArray(parsed) ? parsed.map(user => ({
+            id: user.id,
+            nombre: user.name,
+            email: user.email,
+            password: user.password,
+            rol: user.rol || 'Cliente',
+            estado: user.estado || 'Activo',
+            fechaRegistro: user.fechaRegistro || new Date().toISOString().split('T')[0]
+        })) : [];
+    } catch (err) {
+        console.warn('Error al cargar usuarios desde localStorage', err);
+        return [];
+    }
+};
+
+// Función para guardar usuarios en localStorage
+const saveUsersToStorage = (usuarios) => {
+    try {
+        // Transformar al formato de user.js (con name en vez de nombre)
+        const usersFormat = usuarios.map(u => ({
+            id: u.id,
+            name: u.nombre,
+            email: u.email,
+            password: u.password || 'password123', // mantener password si existe
+            rol: u.rol,
+            estado: u.estado,
+            fechaRegistro: u.fechaRegistro
+        }));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(usersFormat));
+    } catch (err) {
+        console.warn('Error al guardar usuarios en localStorage', err);
+    }
+};
 
 function AdminUsuarios() {
-    const [usuarios, setUsuarios] = useState([
-        {
-            id: 1,
-            nombre: 'Juan Pérez',
-            email: 'juan.perez@email.com',
-            rol: 'Cliente',
-            estado: 'Activo',
-            fechaRegistro: '2024-01-15'
-        },
-        {
-            id: 2,
-            nombre: 'María González',
-            email: 'maria.gonzalez@email.com',
-            rol: 'Cliente',
-            estado: 'Activo',
-            fechaRegistro: '2024-02-20'
-        },
-        {
-            id: 3,
-            nombre: 'Carlos Rodríguez',
-            email: 'carlos.rodriguez@email.com',
-            rol: 'Administrador',
-            estado: 'Activo',
-            fechaRegistro: '2023-12-10'
-        },
-        {
-            id: 4,
-            nombre: 'Ana Martínez',
-            email: 'ana.martinez@email.com',
-            rol: 'Cliente',
-            estado: 'Inactivo',
-            fechaRegistro: '2024-03-05'
-        }
-    ]);
+    // Cargar usuarios desde localStorage al inicio
+    const [usuarios, setUsuarios] = useState(() => loadUsersFromStorage());
 
     const [showModal, setShowModal] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -53,6 +66,35 @@ function AdminUsuarios() {
 
     const roles = ['Cliente', 'Administrador'];
     const estados = ['Activo', 'Inactivo'];
+
+    // Efecto para sincronizar con localStorage cuando cambie el componente
+    // Útil si otro componente actualiza localStorage
+    useEffect(() => {
+        const handleStorageChange = () => {
+            const updatedUsers = loadUsersFromStorage();
+            setUsuarios(updatedUsers);
+        };
+
+        // Escuchar cambios en localStorage (desde otras pestañas)
+        window.addEventListener('storage', handleStorageChange);
+
+        // Verificar cambios cada 2 segundos (para detectar cambios en la misma pestaña)
+        const interval = setInterval(() => {
+            const currentUsers = loadUsersFromStorage();
+            setUsuarios(prevUsers => {
+                // Solo actualizar si hay diferencias
+                if (JSON.stringify(prevUsers) !== JSON.stringify(currentUsers)) {
+                    return currentUsers;
+                }
+                return prevUsers;
+            });
+        }, 2000);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            clearInterval(interval);
+        };
+    }, []);
 
     // Función para obtener color según rol
     const getRolColor = (rol) => {
@@ -117,6 +159,7 @@ function AdminUsuarios() {
                     : u
             );
             setUsuarios(updatedUsuarios);
+            saveUsersToStorage(updatedUsuarios); // Guardar en localStorage
             showAlert('Usuario actualizado exitosamente', 'success');
         } else {
             const emailExiste = usuarios.some(u => u.email === formData.email);
@@ -125,11 +168,14 @@ function AdminUsuarios() {
                 return;
             }
             const nuevoUsuario = {
-                id: Math.max(...usuarios.map(u => u.id)) + 1,
+                id: usuarios.length > 0 ? Math.max(...usuarios.map(u => u.id)) + 1 : 1,
                 ...formData,
+                password: formData.password || 'password123', // Asegurar que tenga password
                 fechaRegistro: new Date().toISOString().split('T')[0]
             };
-            setUsuarios([...usuarios, nuevoUsuario]);
+            const nuevosUsuarios = [...usuarios, nuevoUsuario];
+            setUsuarios(nuevosUsuarios);
+            saveUsersToStorage(nuevosUsuarios); // Guardar en localStorage
             showAlert('Usuario agregado exitosamente', 'success');
         }
         handleCloseModal();
@@ -137,7 +183,9 @@ function AdminUsuarios() {
 
     const handleDelete = (id) => {
         if (window.confirm('¿Está seguro de eliminar este usuario?')) {
-            setUsuarios(usuarios.filter(u => u.id !== id));
+            const nuevosUsuarios = usuarios.filter(u => u.id !== id);
+            setUsuarios(nuevosUsuarios);
+            saveUsersToStorage(nuevosUsuarios); // Guardar en localStorage
             showAlert('Usuario eliminado exitosamente', 'warning');
         }
     };
@@ -149,6 +197,7 @@ function AdminUsuarios() {
                 : u
         );
         setUsuarios(updatedUsuarios);
+        saveUsersToStorage(updatedUsuarios); // Guardar en localStorage
         showAlert('Estado actualizado', 'info');
     };
 
@@ -375,11 +424,8 @@ function AdminUsuarios() {
                             </Col>
                         </Row>
 
-                        {isEditing && (
-                            <Alert variant="info">
-                                <i className="bi bi-info-circle"></i> Deja la contraseña en blanco si no deseas cambiarla.
-                            </Alert>
-                        )}
+                        {isEditing                         
+                        }
 
                         <div className="d-flex justify-content-end gap-2">
                             <Button variant="secondary" onClick={handleCloseModal}>

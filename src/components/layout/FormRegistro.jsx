@@ -65,6 +65,8 @@ const FormRegistro = () => {
     const [formData, setFormData] = useState(initialState);
     // Errores por campo (objeto con keys por cada campo con error)
     const [errores, setErrores] = useState({});
+    // Estado para mostrar mensaje de éxito
+    const [showSuccess, setShowSuccess] = useState(false);
 
     // Manejador de cambios para inputs controlados
     // Actualiza el campo correspondiente en formData
@@ -85,16 +87,32 @@ const FormRegistro = () => {
             const nombreCompleto = `${formData.nombre} ${formData.apellido}`.trim();
             const newUser = addUser({ name: nombreCompleto, email: formData.correo, password: formData.password });
             console.log('Usuario registrado:', newUser);
-            // reset del formulario y mostrar un mensaje sencillo
+            // reset del formulario y mostrar mensaje de éxito
             setFormData(initialState);
             setErrores({});
-            alert('Registro exitoso. Ahora puedes iniciar sesión con tu correo y contraseña.');
+            setShowSuccess(true);
+            // Ocultar mensaje después de 5 segundos
+            setTimeout(() => setShowSuccess(false), 5000);
         }
     };
 
     return (
         <div className="registro-frame registro-container">
             <div className="registro-title">Registro</div>
+            
+            {showSuccess && (
+                <div className="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>¡Registro exitoso!</strong> Tu cuenta ha sido creada correctamente. 
+                    Ahora puedes iniciar sesión con tu correo y contraseña.
+                    <button 
+                        type="button" 
+                        className="btn-close" 
+                        onClick={() => setShowSuccess(false)}
+                        aria-label="Close"
+                    ></button>
+                </div>
+            )}
+
             <form onSubmit={handleSubmit} noValidate>
                 
                 <div className="mb-3">
