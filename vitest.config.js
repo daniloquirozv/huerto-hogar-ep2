@@ -1,20 +1,9 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
+import path from 'path'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    port: 3000,
-    open: true
-  },
-  build: {
-    outDir: 'build',
-    sourcemap: true
-  },
-  css: {
-    devSourcemap: true
-  },
   test: {
     globals: true,
     environment: 'jsdom',
@@ -25,8 +14,15 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
       exclude: [
         'node_modules/',
-        'src/setupTests.js',
+        'tests/',
+        '**/*.test.{js,jsx}',
+        '**/*.config.{js,ts}',
       ]
+    }
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src')
     }
   }
 })

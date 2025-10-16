@@ -181,7 +181,7 @@ function AdminProductos() {
     })();
 
     return (
-        <div className="admin-productos">
+        <div className="admin-productos" data-testid="admin-productos">
             {alert.show && (
                 <Alert variant={alert.variant} dismissible onClose={() => setAlert({ show: false })}>
                     {alert.message}

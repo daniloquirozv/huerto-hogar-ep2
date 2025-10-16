@@ -162,7 +162,7 @@ function AdminUsuarios() {
     const totalAdmins = usuarios.filter(u => u.rol === 'Administrador').length;
 
     return (
-        <div className="admin-usuarios">
+        <div className="admin-usuarios" data-testid="admin-usuarios">
             {alert.show && (
                 <Alert variant={alert.variant} dismissible onClose={() => setAlert({ show: false })}>
                     {alert.message}
