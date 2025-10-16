@@ -9,6 +9,7 @@ import Blog from './pages/blogPage';
 import CarritoPage from './pages/CarritoPage'; 
 import AdminPage from './pages/AdminPage';
 import RegistroPage from './pages/RegistroPage';
+import ScrollToTop from './components/ui/scrollToTop';
 
 function App() {
   // Estado global del carrito - inicializado desde localStorage
@@ -65,45 +66,48 @@ function App() {
     localStorage.removeItem('huertoHogarCart');
   };
   return (
-    <Routes>
-      <Route path='/'
-      element={<PrincipalPage
-        cartItems={cartItems}
-        onAddToCart={handleAddToCart}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-      />}/>
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path='/'
+        element={<PrincipalPage
+          cartItems={cartItems}
+          onAddToCart={handleAddToCart}
+          onUpdateQuantity={handleUpdateQuantity}
+          onRemoveItem={handleRemoveItem}
+        />}/>
 
-      <Route path='/productos'
-      element={<ProductoPage
-        cartItems={cartItems}
-        onAddToCart={handleAddToCart}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-      />}/>
+        <Route path='/productos'
+        element={<ProductoPage
+          cartItems={cartItems}
+          onAddToCart={handleAddToCart}
+          onUpdateQuantity={handleUpdateQuantity}
+          onRemoveItem={handleRemoveItem}
+        />}/>
 
-      <Route path='/blog'
-      element={<Blog
-        cartItems={cartItems}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-      />}/>
+        <Route path='/blog'
+        element={<Blog
+          cartItems={cartItems}
+          onUpdateQuantity={handleUpdateQuantity}
+          onRemoveItem={handleRemoveItem}
+        />}/>
 
-      <Route path='/carrito'
-      element={<CarritoPage
-        cartItems={cartItems}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-        onClearCart={handleClearCart}
-      />}/>
+        <Route path='/carrito'
+        element={<CarritoPage
+          cartItems={cartItems}
+          onUpdateQuantity={handleUpdateQuantity}
+          onRemoveItem={handleRemoveItem}
+          onClearCart={handleClearCart}
+        />}/>
 
-      <Route path='/admin'
-      element={<AdminPage/>}/>
+        <Route path='/admin'
+        element={<AdminPage/>}/>
 
-      <Route path='/registro'
-      element={<RegistroPage/>}/>
+        <Route path='/registro'
+        element={<RegistroPage/>}/>
 
-    </Routes>
+      </Routes>
+    </>
   )
 }
 
