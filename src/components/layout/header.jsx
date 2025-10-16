@@ -54,8 +54,9 @@ export default function Header() {
                     {/* Menú principal - oculto en pantallas pequeñas */}
                     <Nav className="menu-centro mx-auto d-none d-lg-flex">
                         <Nav.Link as={Link} to="/">Inicio</Nav.Link>
-                        <Nav.Link href="/productos">Productos</Nav.Link>
+                        <Nav.Link as={Link} to="/productos">Productos</Nav.Link>
                         <Nav.Link as={Link} to="/blog">Blog</Nav.Link>
+                        <Nav.Link as={Link} to="/carrito">Carrito</Nav.Link>
                         <Nav.Link
                             href="#contacto"
                             onClick={(e) => {

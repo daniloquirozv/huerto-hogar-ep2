@@ -7,6 +7,8 @@ import ProductoPage from './pages/productosPage';
 // import AdminPage from './pages/AdminPage';
 // import { useState } from 'react';
 import PrincipalPage from './pages/principalPage';
+import Blog from './pages/blogPage';
+import CarritoPage from './pages/CarritoPage'; 
 
 function App() {
   return (
@@ -16,6 +18,12 @@ function App() {
 
       <Route path='/productos'
       element={<ProductoPage/>}/>
+
+      <Route path='/blog'
+      element={<Blog/>}/>
+
+      <Route path='/carrito'
+      element={<CarritoPage/>}/>
 
 
 
