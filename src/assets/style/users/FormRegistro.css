@@ -129,7 +129,7 @@
 }
 .registro-container button:hover{
     background-color: #3CB371;
-    border: 5px solid #3CB371;
+    border: 1px solid #3CB371;
     cursor: pointer;
 }
 
@@ -139,6 +139,18 @@
     color: white;
     padding: 8px 14px;
     border: none;
+}
+
+.registro-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.registro-buttons .btn-registro-submit {
+    flex: 1;
+    max-width: 200px;
 }
 
 .btn-region {

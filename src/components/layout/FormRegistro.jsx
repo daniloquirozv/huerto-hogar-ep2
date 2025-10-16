@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../assets/style/users/FormRegistro.css';
 import { addUser } from '../../data/user';
 
@@ -59,6 +60,7 @@ const ValidarFormularioRegistro = (formData) => {
 };
 
 const FormRegistro = () => {
+    const navigate = useNavigate();
     // Estado del formulario (valores de los inputs)
     const [formData, setFormData] = useState(initialState);
     // Errores por campo (objeto con keys por cada campo con error)
@@ -219,7 +221,10 @@ const FormRegistro = () => {
                     <div id="error-password2" role="alert" className="invalid-feedback">{errores.password2}</div>
                 </div>
 
-                <button type="submit" className="btn-registro-submit">Registrarse</button>
+                <div className="registro-buttons">
+                    <button type="submit" className="btn-registro-submit">Registrarse</button>
+                    <button type="button" className="btn-registro-submit" onClick={() => navigate('/')}>Volver</button>
+                </div>
             </form>
         </div>
     );
