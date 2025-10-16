@@ -8,6 +8,7 @@ import PrincipalPage from './pages/principalPage';
 import Blog from './pages/blogPage';
 import CarritoPage from './pages/CarritoPage'; 
 import AdminPage from './pages/AdminPage';
+import RegistroPage from './pages/RegistroPage';
 
 function App() {
   // Estado global del carrito
@@ -61,6 +62,9 @@ function App() {
 
       <Route path='/admin'
       element={<AdminPage/>}/>
+
+      <Route path='/registro'
+      element={<RegistroPage/>}/>
 
     </Routes>
   )

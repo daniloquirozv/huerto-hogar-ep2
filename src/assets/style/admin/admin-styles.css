@@ -11,7 +11,7 @@
 }
 
 body {
-    background-image: url('/public/FondoHTML.png');
+    background-image: url('/FondoHTML.png');
     background-repeat: repeat;
     background-color: var(--bg-principal);
 }
