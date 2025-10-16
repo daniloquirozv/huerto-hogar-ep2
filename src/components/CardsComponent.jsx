@@ -3,9 +3,12 @@ import '../assets/style/productos/producto-styles.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { productos } from '../data/productos'
+import { Toast, ToastContainer } from 'react-bootstrap'
 
 function CardsComponent({ onAddToCart }) {
     const [quantities, setQuantities] = useState({});
+    const [showToast, setShowToast] = useState(false);
+    
 
     const handleQuantityChange = (codigo, value) => {
         const numValue = parseInt(value) || 0;
@@ -18,6 +21,12 @@ function CardsComponent({ onAddToCart }) {
     const handleAddToCart = (producto) => {
         const quantity = quantities[producto.codigo] || 1;
         onAddToCart(producto, quantity);
+        
+        // Resetear cantidad después de agregar
+        setQuantities(prev => ({
+            ...prev,
+            [producto.codigo]: 1
+        }));
     };
 
     // Group products by category
@@ -36,59 +45,73 @@ function CardsComponent({ onAddToCart }) {
     };
 
     return (
-
-        <div className="container my-5">
-            {Object.entries(categorias).map(([categoria, productosCategoria]) => (
-                <section className="category-section" key={categoria}>
-                    <div className="card">
-                        <h2 className="category-title">{categoria}</h2>
-                        <p className="category-description">
-                            {descripcionesCategorias[categoria]}
-                        </p>
-                    </div>
-                    <div className="row g-4">
-                        {productosCategoria.map((producto) => (
-                            <div className="col-lg-4 col-md-6" key={producto.codigo}>
-                                <div className="card product-card">
-                                    <div className="position-relative">
-                                        <img src={producto.imagen} className="card-img-top" alt={producto.nombre} />
-                                        <span className="product-code">{producto.codigo}</span>
-                                        <span className="stock-badge">{producto.stock} {producto.unidad} disponibles</span>
-                                    </div>
-                                    <div className="card-body">
-                                        <h5 className="product-title">{producto.nombre}</h5>
-                                        <div className="product-price">${producto.precio.toLocaleString('es-CL')} CLP/{producto.unidad}</div>
-                                        <p className="product-stock"> En stock - {producto.stock} {producto.unidad}</p>
-                                        <p className="product-description">
-                                            {producto.descripcion}
-                                        </p>
-                                        <div className="input-group mb-2">
-                                            <span className="input-group-text">Cantidad</span>
-                                            <input
-                                                type="number"
-                                                className="form-control"
-                                                min="1"
-                                                max={producto.stock}
-                                                value={quantities[producto.codigo] || 1}
-                                                onChange={(e) => handleQuantityChange(producto.codigo, e.target.value)}
-                                            />
-                                            <span className="input-group-text">{producto.unidad}</span>
+        <>
+            <div className="container my-5">
+                {Object.entries(categorias).map(([categoria, productosCategoria]) => (
+                    <section className="category-section" key={categoria}>
+                        <div className="card">
+                            <h2 className="category-title">{categoria}</h2>
+                            <p className="category-description">
+                                {descripcionesCategorias[categoria]}
+                            </p>
+                        </div>
+                        <div className="row g-4">
+                            {productosCategoria.map((producto) => (
+                                <div className="col-lg-4 col-md-6" key={producto.codigo}>
+                                    <div className="card product-card">
+                                        <div className="position-relative">
+                                            <img src={producto.imagen} className="card-img-top" alt={producto.nombre} />
+                                            <span className="product-code">{producto.codigo}</span>
+                                            <span className="stock-badge">{producto.stock} {producto.unidad} disponibles</span>
                                         </div>
-                                        <button
-                                            className="btn btn-success btn-add-cart"
-                                            onClick={() => handleAddToCart(producto)}
-                                        >
-                                            <i className="bi bi-cart-plus me-2"></i>
-                                            Agregar al Carrito
-                                        </button>
+                                        <div className="card-body">
+                                            <h5 className="product-title">{producto.nombre}</h5>
+                                            <div className="product-price">${producto.precio.toLocaleString('es-CL')} CLP/{producto.unidad}</div>
+                                            <p className="product-stock"> En stock - {producto.stock} {producto.unidad}</p>
+                                            <p className="product-description">
+                                                {producto.descripcion}
+                                            </p>
+                                            <div className="input-group mb-2">
+                                                <span className="input-group-text">Cantidad</span>
+                                                <input
+                                                    type="number"
+                                                    className="form-control"
+                                                    min="1"
+                                                    max={producto.stock}
+                                                    value={quantities[producto.codigo] || 1}
+                                                    onChange={(e) => handleQuantityChange(producto.codigo, e.target.value)}
+                                                />
+                                                <span className="input-group-text">{producto.unidad}</span>
+                                            </div>
+                                            <button
+                                                className="btn btn-success btn-add-cart"
+                                                onClick={() => handleAddToCart(producto)}
+                                            >
+                                                <i className="bi bi-cart-plus me-2"></i>
+                                                Agregar al Carrito
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            ))}
-        </div>
+                            ))}
+                        </div>
+                    </section>
+                ))}
+            </div>
+
+            {/* Toast de notificación */}
+            <ToastContainer position="top-end" className="p-3" style={{ zIndex: 9999 }}>
+                <Toast 
+                    show={showToast} 
+                    onClose={() => setShowToast(false)} 
+                    delay={3000} 
+                    autohide
+                    bg="success"
+                >
+                    
+                </Toast>
+            </ToastContainer>
+        </>
     )
 }
 

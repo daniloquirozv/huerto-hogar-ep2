@@ -6,12 +6,11 @@ import LoginModal from "../loginModal";
 import BarraMenu from "../barraMenu";
 import logotipo from '../../assets/images/principal/LogoTipo.png';
 
-export default function Header() {
+export default function Header({ cartItems = [], onUpdateQuantity, onRemoveItem }) {
 
     const [showMenu, setShowMenu] = useState(false);
     const [showCart, setShowCart] = useState(false);
-    const [showLogin, setShowLogin] = useState(false);
-    const cartItems = []; // Vacío para mostrar el mensaje, o con items 
+    const [showLogin, setShowLogin] = useState(false); 
 
     // Función para hacer scroll al footer de contacto
     const scrollToContacto = () => {
@@ -97,7 +96,13 @@ export default function Header() {
                     </Nav>
                 </Container>
             </Navbar>
-            <CarritoMenu show={showCart} handleClose={() => setShowCart(false)} carritoItems={cartItems} />
+            <CarritoMenu 
+                show={showCart} 
+                handleClose={() => setShowCart(false)} 
+                carritoItems={cartItems}
+                onUpdateQuantity={onUpdateQuantity}
+                onRemoveFromCart={onRemoveItem}
+            />
             <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} />
             <BarraMenu
                 show={showMenu}

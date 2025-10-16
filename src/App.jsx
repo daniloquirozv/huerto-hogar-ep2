@@ -49,16 +49,35 @@ function App() {
   return (
     <Routes>
       <Route path='/'
-      element={<PrincipalPage/>}/>
+      element={<PrincipalPage
+        cartItems={cartItems}
+        onAddToCart={handleAddToCart}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveItem}
+      />}/>
 
       <Route path='/productos'
-      element={<ProductoPage/>}/>
+      element={<ProductoPage
+        cartItems={cartItems}
+        onAddToCart={handleAddToCart}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveItem}
+      />}/>
 
       <Route path='/blog'
-      element={<Blog/>}/>
+      element={<Blog
+        cartItems={cartItems}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveItem}
+      />}/>
 
       <Route path='/carrito'
-      element={<CarritoPage/>}/>
+      element={<CarritoPage
+        cartItems={cartItems}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveItem}
+        onClearCart={handleClearCart}
+      />}/>
 
       <Route path='/admin'
       element={<AdminPage/>}/>

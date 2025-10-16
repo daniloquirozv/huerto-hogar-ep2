@@ -6,7 +6,11 @@ import CarritoMainComponent from '../components/carritoMainComponent'
 function CarritoPage({ cartItems, onUpdateQuantity, onRemoveItem, onClearCart }) {
   return (
     <>
-    <Header/>
+    <Header
+      cartItems={cartItems}
+      onUpdateQuantity={onUpdateQuantity}
+      onRemoveItem={onRemoveItem}
+    />
     <CarritoMainComponent
     cartItems={cartItems}
         onUpdateQuantity={onUpdateQuantity}

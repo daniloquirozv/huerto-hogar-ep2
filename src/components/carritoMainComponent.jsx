@@ -272,7 +272,7 @@ function CarritoMainComponent({
                                 <Button
                                     variant="outline-success"
                                     className="w-100"
-                                    href="/producto"
+                                    href="/productos"
                                 >
                                     <i className="bi bi-arrow-left me-2"></i>
                                     Seguir Comprando
