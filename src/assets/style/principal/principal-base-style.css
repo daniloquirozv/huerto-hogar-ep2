@@ -21,7 +21,7 @@
 
 /* Estilos globales del body */
 body {
-  background-image: url(../images/principal/FondoHTML.png);
+  background-image: url('/public/FondoHTML.png');
 }
 
 /* Animaciones globales consolidadas */

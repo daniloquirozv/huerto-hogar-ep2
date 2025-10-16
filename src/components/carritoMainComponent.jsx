@@ -72,7 +72,7 @@ function CarritoMainComponent({
                         <i className="bi bi-cart-x" style={{ fontSize: '5rem', color: '#6c757d' }}></i>
                         <h3 className="mt-4 text-muted">Tu carrito está vacío</h3>
                         <p className="text-muted">Agrega productos para comenzar tu compra</p>
-                        <Button variant="success" size="lg" href="/producto" className="mt-3">
+                        <Button variant="success" size="lg" href="/productos" className="mt-3">
                             <i className="bi bi-shop me-2"></i>
                             Ir a la Tienda
                         </Button>

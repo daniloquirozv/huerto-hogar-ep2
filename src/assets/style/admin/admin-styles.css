@@ -1,0 +1,486 @@
+/* Estilos del Panel de Administración */
+:root {
+    --bg-principal: #F7F7F7;
+    --admin-verde: #2E8B57;
+    --admin-amarillo: #FFD700;
+    --admin-marron: #8B4513;
+    --admin-gris-claro: #F7F7F7;
+    --admin-gris-medio: #e0e0e0;
+    --admin-texto: #333333;
+    --admin-texto-claro: #666666;
+}
+
+body {
+    background-image: url('/public/FondoHTML.png');
+    background-repeat: repeat;
+    background-color: var(--bg-principal);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+p {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Contenedor principal */
+.admin-page {
+    min-height: 100vh;
+    background-color: transparent;
+    padding: 0;
+}
+
+/* Navbar del admin - similar al de productos */
+.admin-navbar {
+    background-color: var(--admin-verde);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admin-navbar .navbar-brand img {
+    transition: transform 0.3s ease;
+}
+
+.admin-navbar .navbar-brand img:hover {
+    transform: scale(1.05);
+}
+
+.admin-navbar .nav-link {
+    color: white !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+}
+
+.admin-navbar .nav-link:hover {
+    color: var(--admin-amarillo) !important;
+    transform: translateX(-3px);
+}
+
+.admin-navbar .navbar-text {
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+}
+
+.admin-navbar .navbar-text i {
+    font-size: 1.3rem;
+}
+
+.admin-navbar .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.admin-navbar .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Sidebar de navegación - Ahora como tabs centralizados */
+.admin-sidebar {
+    background-color: white;
+    padding: 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    height: fit-content;
+    margin: 0 auto 2rem auto;
+    max-width: 600px;
+}
+
+.admin-nav {
+    display: flex;
+    flex-direction: row !important;
+    gap: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-nav .nav-item {
+    flex: 1;
+}
+
+.admin-nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    border-radius: 0;
+    color: var(--admin-texto);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    border-right: 1px solid var(--admin-gris-medio);
+    text-align: center;
+}
+
+.admin-nav .nav-item:last-child .admin-nav-link {
+    border-right: none;
+}
+
+.admin-nav-link i {
+    font-size: 1.3rem;
+    color: var(--admin-verde);
+}
+
+.admin-nav-link:hover {
+    background-color: var(--admin-gris-claro);
+    color: var(--admin-verde);
+}
+
+.admin-nav-link.active {
+    background-color: var(--admin-verde);
+    color: white;
+}
+
+.admin-nav-link.active i {
+    color: white;
+}
+
+/* Contenido principal */
+.admin-main {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-top: 0;
+}
+
+/* Sección títulos */
+.section-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--admin-verde);
+    font-size: 2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.section-title i {
+    font-size: 1.8rem;
+}
+
+/* Botón agregar */
+.btn-admin-add {
+    background-color: var(--admin-verde);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(46, 139, 87, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-admin-add:hover {
+    background-color: #267347;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 139, 87, 0.4);
+}
+
+.btn-admin-add i {
+    margin-right: 0.5rem;
+}
+
+/* Input de búsqueda */
+.search-input {
+    border: 2px solid var(--admin-gris-medio);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: var(--admin-verde);
+    box-shadow: 0 0 0 0.2rem rgba(46, 139, 87, 0.15);
+}
+
+/* Filtros de selección */
+.filter-select {
+    border: 2px solid var(--admin-gris-medio);
+    border-radius: 6px;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.filter-select:focus {
+    border-color: var(--admin-verde);
+    box-shadow: 0 0 0 0.2rem rgba(46, 139, 87, 0.15);
+}
+
+.filter-select option {
+    padding: 0.5rem;
+}
+
+/* Labels de filtros */
+.admin-productos .form-label {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: var(--admin-texto-claro);
+}
+
+.admin-productos .form-label i {
+    margin-right: 0.25rem;
+    color: var(--admin-verde);
+}
+
+/* Badges de estadísticas */
+.stats-badge {
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+/* Tabla de administración */
+.admin-table {
+    margin-top: 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.admin-table thead {
+    background-color: var(--admin-verde);
+    color: white;
+}
+
+.admin-table thead th {
+    font-weight: 600;
+    padding: 1rem;
+    border: none;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.admin-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.admin-table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-color: var(--admin-gris-medio);
+}
+
+/* Botones de acción en tabla */
+.admin-table .btn {
+    transition: all 0.2s ease;
+}
+
+.admin-table .btn:hover {
+    transform: scale(1.1);
+}
+
+.admin-table .btn-outline-primary:hover {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.admin-table .btn-outline-danger:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Modal personalizado */
+.modal-header-admin {
+    background-color: var(--admin-verde);
+    color: white;
+    border-radius: 8px 8px 0 0;
+}
+
+.modal-header-admin .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+.modal-header-admin .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+}
+
+/* Formularios */
+.modal-body .form-label {
+    font-weight: 600;
+    color: var(--admin-texto);
+    margin-bottom: 0.5rem;
+}
+
+.modal-body .form-control,
+.modal-body .form-select {
+    border: 2px solid var(--admin-gris-medio);
+    border-radius: 6px;
+    padding: 0.65rem;
+    transition: all 0.3s ease;
+}
+
+.modal-body .form-control:focus,
+.modal-body .form-select:focus {
+    border-color: var(--admin-verde);
+    box-shadow: 0 0 0 0.2rem rgba(46, 139, 87, 0.15);
+}
+
+/* Badges en tabla */
+.badge {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+/* Alertas */
+.alert {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Alerta dentro del modal */
+.modal-body .alert {
+    animation: slideDown 0.3s ease-out;
+    border-left: 4px solid;
+}
+
+.modal-body .alert-danger {
+    background-color: #fee;
+    color: #c00;
+    border-left-color: #dc3545;
+}
+
+.modal-body .alert strong {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Campo con error */
+.border-danger {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15) !important;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .admin-sidebar {
+        margin-bottom: 2rem;
+        max-width: 100%;
+    }
+
+    .admin-title {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-navbar .navbar-text {
+        font-size: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .admin-navbar .navbar-brand img {
+        width: 80px;
+    }
+
+    .admin-main {
+        padding: 1rem;
+    }
+
+    .admin-nav-link {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .admin-nav-link span {
+        display: none;
+    }
+
+    .admin-nav-link i {
+        font-size: 1.5rem;
+    }
+
+    .table-responsive {
+        font-size: 0.85rem;
+    }
+
+    .admin-table thead th {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .admin-table tbody td {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .btn-admin-add {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .stats-badge {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.admin-productos,
+.admin-usuarios {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Hover effects */
+.badge[style*="cursor: pointer"]:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+    transition: all 0.2s ease;
+}
+
+/* Mejoras visuales */
+.table-responsive {
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.form-control:disabled {
+    background-color: var(--admin-gris-medio);
+    opacity: 0.7;
+}

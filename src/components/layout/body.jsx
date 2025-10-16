@@ -41,7 +41,7 @@ export default function Body() {
                                     variant="success"
                                     size="lg"
                                     className="shadow-lg px-4 py-3"
-                                    href="#productos"
+                                    href="/productos"
                                 >
                                     <i className="fas fa-seedling me-2"></i>
                                     Explorar Productos
