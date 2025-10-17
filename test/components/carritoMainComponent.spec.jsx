@@ -422,4 +422,156 @@ describe('CarritoMainComponent', () => {
             expect(screen.getByText('Tomate Cherry')).toBeInTheDocument();
         });
     });
+
+    describe('Funcionalidad de cupones de descuento', () => {
+        it('debe mostrar campo de cupón de descuento', () => {
+            render(<CarritoMainComponent cartItems={mockProductos} {...mockHandlers} />);
+            expect(screen.getByPlaceholderText(/Ingresa tu código/i)).toBeInTheDocument();
+            expect(screen.getByText(/¿Tienes un cupón de descuento?/i)).toBeInTheDocument();
+        });
+
+        it('debe tener botón para aplicar cupón deshabilitado cuando está vacío', () => {
+            render(<CarritoMainComponent cartItems={mockProductos} {...mockHandlers} />);
+            const aplicarBtn = screen.getByText(/Aplicar/i).closest('button');
+            expect(aplicarBtn).toBeDisabled();
+        });
+
+        it('debe habilitar botón aplicar cuando se ingresa texto', () => {
+            render(<CarritoMainComponent cartItems={mockProductos} {...mockHandlers} />);
+            const input = screen.getByPlaceholderText(/Ingresa tu código/i);
+            const aplicarBtn = screen.getByText(/Aplicar/i).closest('button');
+            
+            fireEvent.change(input, { target: { value: 'VERDURAS30' } });
+            expect(aplicarBtn).not.toBeDisabled();
+        });
+
+        it('debe aplicar un cupón válido', async () => {
+            render(<CarritoMainComponent cartItems={mockProductos} {...mockHandlers} />);
+            const input = screen.getByPlaceholderText(/Ingresa tu código/i);
+            const aplicarBtn = screen.getByText(/Aplicar/i).closest('button');
+            
+            fireEvent.change(input, { target: { value: 'VERDURAS30' } });
+            fireEvent.click(aplicarBtn);
+            
+            await waitFor(() => {
+                expect(screen.getByText(/VERDURAS30/i)).toBeInTheDocument();
+                expect(screen.getByText(/30% de descuento aplicado/i)).toBeInTheDocument();
+            });
+        });
+
+        it('debe mostrar error para cupón inválido', async () => {
+            render(<CarritoMainComponent cartItems={mockProductos} {...mockHandlers} />);
+            const input = screen.getByPlaceholderText(/Ingresa tu código/i);
+            const aplicarBtn = screen.getByText(/Aplicar/i).closest('button');
+            
+            fireEvent.change(input, { target: { value: 'CUPONINVALIDO' } });
+            fireEvent.click(aplicarBtn);
+            
+            await waitFor(() => {
+                expect(screen.getByText(/no válido/i)).toBeInTheDocument();
+            });
+        });
+
+        it('debe poder remover un cupón aplicado', async () => {
+            render(<CarritoMainComponent cartItems={mockProductos} {...mockHandlers} />);
+            const input = screen.getByPlaceholderText(/Ingresa tu código/i);
+            const aplicarBtn = screen.getByText(/Aplicar/i).closest('button');
+            
+            // Aplicar cupón
+            fireEvent.change(input, { target: { value: 'VERDURAS30' } });
+            fireEvent.click(aplicarBtn);
+            
+            await waitFor(() => {
+                expect(screen.getByText(/VERDURAS30/i)).toBeInTheDocument();
+            });
+            
+            // Remover cupón - buscar el botón dentro de la alerta de éxito
+            const removeBtn = screen.getAllByRole('button').find(btn => 
+                btn.querySelector('.bi-x')
+            );
+            fireEvent.click(removeBtn);
+            
+            await waitFor(() => {
+                expect(screen.queryByText(/VERDURAS30/i)).not.toBeInTheDocument();
+                expect(screen.getByPlaceholderText(/Ingresa tu código/i)).toBeInTheDocument();
+            });
+        });
+
+        it('debe aplicar cupón al presionar Enter', async () => {
+            render(<CarritoMainComponent cartItems={mockProductos} {...mockHandlers} />);
+            const input = screen.getByPlaceholderText(/Ingresa tu código/i);
+            
+            fireEvent.change(input, { target: { value: 'VERDURAS30' } });
+            fireEvent.keyPress(input, { key: 'Enter', code: 'Enter', charCode: 13 });
+            
+            await waitFor(() => {
+                expect(screen.getByText(/VERDURAS30/i)).toBeInTheDocument();
+            });
+        });
+
+        it('debe calcular correctamente el descuento en el total', async () => {
+            render(<CarritoMainComponent cartItems={mockProductos} {...mockHandlers} />);
+            
+            // Total sin descuento: 2500*2 + 1500*1 = 6500
+            const totalSinDescuento = 6500;
+            
+            // Verificar total inicial
+            expect(screen.getAllByText(`$${totalSinDescuento.toLocaleString('es-CL')} CLP`).length).toBeGreaterThan(0);
+            
+            // Aplicar cupón del 30%
+            const input = screen.getByPlaceholderText(/Ingresa tu código/i);
+            const aplicarBtn = screen.getByText(/Aplicar/i).closest('button');
+            
+            fireEvent.change(input, { target: { value: 'VERDURAS30' } });
+            fireEvent.click(aplicarBtn);
+            
+            await waitFor(() => {
+                const descuento = Math.round(totalSinDescuento * 0.30);
+                const totalConDescuento = totalSinDescuento - descuento;
+                
+                // Verificar que muestra el descuento
+                expect(screen.getByText(new RegExp(`-\\$${descuento.toLocaleString('es-CL')} CLP`, 'i'))).toBeInTheDocument();
+                
+                // Verificar el total con descuento
+                expect(screen.getByText(new RegExp(`\\$${totalConDescuento.toLocaleString('es-CL')} CLP`, 'i'))).toBeInTheDocument();
+            });
+        });
+
+        it('debe limpiar mensaje de error al escribir nuevamente', async () => {
+            render(<CarritoMainComponent cartItems={mockProductos} {...mockHandlers} />);
+            const input = screen.getByPlaceholderText(/Ingresa tu código/i);
+            const aplicarBtn = screen.getByText(/Aplicar/i).closest('button');
+            
+            // Aplicar cupón inválido
+            fireEvent.change(input, { target: { value: 'INVALIDO' } });
+            fireEvent.click(aplicarBtn);
+            
+            await waitFor(() => {
+                expect(screen.getByText(/no válido/i)).toBeInTheDocument();
+            });
+            
+            // Escribir de nuevo
+            fireEvent.change(input, { target: { value: 'VERDURAS30' } });
+            
+            await waitFor(() => {
+                expect(screen.queryByText(/no válido/i)).not.toBeInTheDocument();
+            });
+        });
+
+        it('debe mostrar icono de descuento cuando hay cupón aplicado', async () => {
+            render(<CarritoMainComponent cartItems={mockProductos} {...mockHandlers} />);
+            const input = screen.getByPlaceholderText(/Ingresa tu código/i);
+            const aplicarBtn = screen.getByText(/Aplicar/i).closest('button');
+            
+            fireEvent.change(input, { target: { value: 'VERDURAS30' } });
+            fireEvent.click(aplicarBtn);
+            
+            await waitFor(() => {
+                // Buscar el elemento que contiene el descuento con icono
+                const descuentoElement = screen.getByText(/Descuento \(30%\):/i);
+                expect(descuentoElement).toBeInTheDocument();
+            });
+        });
+    });
 });
+

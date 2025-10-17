@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button, Badge, Form, Modal, Alert } from 'react-bootstrap';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { validateCoupon, calculateDiscount } from '../utils/discountUtils';
 
 function CarritoMainComponent({
     cartItems = [],
@@ -10,10 +11,33 @@ function CarritoMainComponent({
 }) {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [couponCode, setCouponCode] = useState('');
+    const [appliedCoupon, setAppliedCoupon] = useState(null);
+    const [couponMessage, setCouponMessage] = useState({ type: '', text: '' });
 
-    // Calcular el total del carrito
-    const calculateTotal = () => {
+    // Calcular el subtotal del carrito
+    const calculateSubtotal = () => {
         return cartItems.reduce((total, item) => total + (item.precio * item.quantity), 0);
+    };
+
+    // Calcular el total del carrito con descuento aplicado
+    const calculateTotal = () => {
+        const subtotal = calculateSubtotal();
+        if (appliedCoupon) {
+            const discount = calculateDiscount(subtotal, appliedCoupon.descuento);
+            return discount.total;
+        }
+        return subtotal;
+    };
+
+    // Obtener el monto del descuento
+    const getDiscountAmount = () => {
+        if (appliedCoupon) {
+            const subtotal = calculateSubtotal();
+            const discount = calculateDiscount(subtotal, appliedCoupon.descuento);
+            return discount.montoDescuento;
+        }
+        return 0;
     };
 
     // Calcular total de items
@@ -52,6 +76,35 @@ function CarritoMainComponent({
     const handleCloseModal = () => {
         setShowModal(false);
         setSelectedProduct(null);
+    };
+
+    // Aplicar cupón de descuento
+    const handleApplyCoupon = () => {
+        const validation = validateCoupon(couponCode);
+        
+        if (validation.valid) {
+            setAppliedCoupon(validation.coupon);
+            setCouponMessage({ type: 'success', text: validation.message });
+        } else {
+            setAppliedCoupon(null);
+            setCouponMessage({ type: 'danger', text: validation.message });
+        }
+    };
+
+    // Remover cupón aplicado
+    const handleRemoveCoupon = () => {
+        setAppliedCoupon(null);
+        setCouponCode('');
+        setCouponMessage({ type: '', text: '' });
+    };
+
+    // Manejar cambio en el input del cupón
+    const handleCouponInputChange = (e) => {
+        setCouponCode(e.target.value);
+        // Limpiar mensaje al escribir
+        if (couponMessage.text) {
+            setCouponMessage({ type: '', text: '' });
+        }
     };
 
     return (
@@ -233,15 +286,76 @@ function CarritoMainComponent({
                                 </h5>
                             </Card.Header>
                             <Card.Body>
+                                {/* Sección de cupón de descuento */}
+                                <div className="mb-4">
+                                    <label className="form-label fw-bold">
+                                        <i className="bi bi-ticket-perforated me-2"></i>
+                                        ¿Tienes un cupón de descuento?
+                                    </label>
+                                    {!appliedCoupon ? (
+                                        <div className="input-group">
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Ingresa tu código"
+                                                value={couponCode}
+                                                onChange={handleCouponInputChange}
+                                                onKeyPress={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                        handleApplyCoupon();
+                                                    }
+                                                }}
+                                            />
+                                            <Button
+                                                variant="outline-success"
+                                                onClick={handleApplyCoupon}
+                                                disabled={!couponCode.trim()}
+                                            >
+                                                Aplicar
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <Alert variant="success" className="mb-0 d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i className="bi bi-check-circle-fill me-2"></i>
+                                                <strong>{appliedCoupon.codigo}</strong>
+                                                <div className="small">
+                                                    {appliedCoupon.descuento}% de descuento aplicado
+                                                </div>
+                                            </div>
+                                            <Button
+                                                variant="outline-danger"
+                                                size="sm"
+                                                onClick={handleRemoveCoupon}
+                                            >
+                                                <i className="bi bi-x"></i>
+                                            </Button>
+                                        </Alert>
+                                    )}
+                                    {couponMessage.text && !appliedCoupon && (
+                                        <Alert variant={couponMessage.type} className="mt-2 mb-0 small">
+                                            {couponMessage.text}
+                                        </Alert>
+                                    )}
+                                </div>
+
                                 <div className="mb-3">
                                     <div className="d-flex justify-content-between mb-2">
                                         <span>Subtotal:</span>
-                                        <span>${calculateTotal().toLocaleString('es-CL')} CLP</span>
+                                        <span>${calculateSubtotal().toLocaleString('es-CL')} CLP</span>
                                     </div>
                                     <div className="d-flex justify-content-between mb-2">
                                         <span>Total de items:</span>
                                         <Badge bg="success">{totalItems()}</Badge>
                                     </div>
+                                    {appliedCoupon && (
+                                        <div className="d-flex justify-content-between mb-2 text-success">
+                                            <span>
+                                                <i className="bi bi-tag-fill me-1"></i>
+                                                Descuento ({appliedCoupon.descuento}%):
+                                            </span>
+                                            <span>-${getDiscountAmount().toLocaleString('es-CL')} CLP</span>
+                                        </div>
+                                    )}
                                     <div className="d-flex justify-content-between mb-2">
                                         <span>Envío:</span>
                                         <span className="text-success">Gratis</span>
