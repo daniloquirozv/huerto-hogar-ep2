@@ -11,7 +11,7 @@ function AdminPage() {
 
     return (
         <div className="admin-page">
-            {/* Header estilo navbar de productos */}
+            
             <Navbar expand="lg" className="admin-navbar">
                 <Container>
                     <Navbar.Brand as={Link} to="/">
