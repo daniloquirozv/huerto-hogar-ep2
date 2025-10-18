@@ -53,10 +53,7 @@ export default function BarraMenu({ show, onHide, onShowLogin, onShowCart }) {
                         marginBottom: "5px",
                         padding: "4px 8px"
                     }}>
-                        <strong>Productos</strong>
-                        <div style={{ color: "#1d7bcc", fontSize: "0.93rem" }}>
-                            Miles de productos a tu alcance...
-                        </div>
+                        
                     </div>
                 </div>
                 {/* Sección de accesos */}
@@ -83,13 +80,18 @@ export default function BarraMenu({ show, onHide, onShowLogin, onShowCart }) {
                         <i className="bi bi-cart3" style={{ fontSize: "1.2rem" }}></i>
                         <span>Mi carrito</span>
                     </div>
-                    <div className="d-flex align-items-center gap-2 mb-3" style={{ cursor: "pointer" }}>
+                    {/* <div className="d-flex align-items-center gap-2 mb-3" style={{ cursor: "pointer" }}>
                         <i className="bi bi-gear" style={{ fontSize: "1.2rem" }}></i>
                         <span>Configuración</span>
-                    </div>
+                    </div> */}
                     <div className="d-flex align-items-center gap-2 mb-3" style={{ cursor: "pointer" }}>
+                        <Link to="/productos"
+                        className="d-flex align-items-center gap-2 mb-3 text-decoration-none text-dark" 
+                        style={{ cursor: "pointer" }}
+                        onClick={onHide}>
                         <i className="bi bi-tag" style={{ fontSize: "1.2rem" }}></i>
-                        <span>Ofertas</span>
+                        <span>Productos</span>
+                        </Link>
                     </div>
                 </div>
                 {/* Ayuda y Secciones */}
@@ -112,16 +114,14 @@ export default function BarraMenu({ show, onHide, onShowLogin, onShowCart }) {
                         <span>Contacto</span>
                         <i className="bi bi-chevron-right ms-auto" style={{ fontSize: "1.2rem" }}></i>
                     </div>
-                    <div className="d-flex align-items-center gap-2 mb-3" style={{ cursor: "pointer" }}>
+                    {/* <div className="d-flex align-items-center gap-2 mb-3" style={{ cursor: "pointer" }}>
                         <i className="bi bi-question-circle" style={{ fontSize: "1.2rem" }}></i>
                         <span>Ayuda</span>
-                    </div>
+                    </div> */}
                 </div>
-                {/* Botón inicio sesión/registro */}
+               {/* Botón inicio sesión/registro */}               
                 <div className="d-flex justify-content-center mb-3">
-                    <Button
-                        as={Link}
-                        to="/login"
+                    <Button                        
                         variant="success"
                         style={{
                             fontWeight: 600,
@@ -129,6 +129,10 @@ export default function BarraMenu({ show, onHide, onShowLogin, onShowCart }) {
                             borderRadius: "22px",
                             padding: "0.6rem 1.4rem"
                         }}
+                        onClick={() => {
+                            onShowLogin();
+                            onHide();
+                        } }
                     >
                         Iniciar sesión o crea una cuenta
                     </Button>

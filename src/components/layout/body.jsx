@@ -87,7 +87,7 @@ export default function Body() {
                                 <Row>
                                     <Col xs={4} className="text-center">
                                         <div className="stat-item">
-                                            <div className="stat-number">6</div>
+                                            <div className="stat-number">5</div>
                                             <div className="stat-label">Ofertas Activas</div>
                                         </div>
                                     </Col>
@@ -116,16 +116,7 @@ export default function Body() {
                                 >
                                     <i className="bi bi-book-half me-2"></i>
                                     Explorar Blog
-                                </Button>
-                                <Button 
-                                    variant="outline-success" 
-                                    size="lg"
-                                    className="ofertas-btn"
-                                    href="/productos"
-                                >
-                                    <i className="bi bi-tags-fill me-2"></i>
-                                    Ver Ofertas
-                                </Button>
+                                </Button>                                
                             </div>
                             
                             <div className="blog-promo-news-new">
