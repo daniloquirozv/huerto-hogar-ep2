@@ -31,7 +31,7 @@ describe('userUtils', () => {
             }
         };
 
-        // Reemplazar localStorage global
+        // Reemplaza localStorage global
         global.localStorage = localStorageMock;
 
         // Mock de console.log, console.table

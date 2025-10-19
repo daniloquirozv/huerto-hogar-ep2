@@ -42,7 +42,6 @@ describe('discountUtils', () => {
 
         it('debería validar código OTOÑO20', () => {
             const result = validateCoupon('OTOÑO20');
-            // Este código puede estar vencido dependiendo de la fecha actual
             if (result.valid) {
                 expect(result.coupon.descuento).toBe(20);
             }
