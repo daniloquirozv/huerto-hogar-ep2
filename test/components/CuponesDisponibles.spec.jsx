@@ -34,14 +34,14 @@ describe('CuponesDisponibles', () => {
             render(<CuponesDisponibles />);
             
             // Verificar códigos comunes
-            expect(screen.getByText(/VERDURAS30/i)).toBeInTheDocument();
+            expect(screen.getByText(/FLASH50/i)).toBeInTheDocument();
         });
 
         it('debe mostrar el porcentaje de descuento', () => {
             render(<CuponesDisponibles />);
             
             // Buscar badges con porcentajes (pueden estar en diferentes formatos)
-            const element = screen.getByText(/VERDURAS30/i);
+            const element = screen.getByText(/FLASH50/i);
             expect(element).toBeInTheDocument();
         });
 
@@ -143,7 +143,7 @@ describe('CuponesDisponibles', () => {
 
         it('debe usar fuente monospace para códigos', () => {
             render(<CuponesDisponibles />);
-            const codigo = screen.getByText(/VERDURAS30/i);
+            const codigo = screen.getByText(/FLASH50/i);
             const codigoElement = codigo.closest('div');
             expect(codigoElement.style.fontFamily).toContain('monospace');
         });

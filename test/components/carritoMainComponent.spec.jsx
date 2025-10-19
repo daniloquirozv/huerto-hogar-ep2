@@ -372,7 +372,9 @@ describe('CarritoMainComponent', () => {
 
         it('debe mostrar información de envío gratis', () => {
             render(<CarritoMainComponent cartItems={mockProductos} {...mockHandlers} />);
-            expect(screen.getByText(/Envío gratis en compras superiores a/i)).toBeInTheDocument();
+            // Verificar que muestra "Gratis" en la sección de envío
+            expect(screen.getByText(/Envío:/i)).toBeInTheDocument();
+            expect(screen.getByText(/Gratis/i)).toBeInTheDocument();
         });
 
         it('debe tener botón de proceder al pago', () => {
@@ -441,7 +443,7 @@ describe('CarritoMainComponent', () => {
             const input = screen.getByPlaceholderText(/Ingresa tu código/i);
             const aplicarBtn = screen.getByText(/Aplicar/i).closest('button');
             
-            fireEvent.change(input, { target: { value: 'VERDURAS30' } });
+            fireEvent.change(input, { target: { value: 'FLASH50' } });
             expect(aplicarBtn).not.toBeDisabled();
         });
 
@@ -450,12 +452,12 @@ describe('CarritoMainComponent', () => {
             const input = screen.getByPlaceholderText(/Ingresa tu código/i);
             const aplicarBtn = screen.getByText(/Aplicar/i).closest('button');
             
-            fireEvent.change(input, { target: { value: 'VERDURAS30' } });
+            fireEvent.change(input, { target: { value: 'FLASH50' } });
             fireEvent.click(aplicarBtn);
             
             await waitFor(() => {
-                expect(screen.getByText(/VERDURAS30/i)).toBeInTheDocument();
-                expect(screen.getByText(/30% de descuento aplicado/i)).toBeInTheDocument();
+                expect(screen.getByText(/FLASH50/i)).toBeInTheDocument();
+                expect(screen.getByText(/50% de descuento aplicado/i)).toBeInTheDocument();
             });
         });
 
@@ -478,11 +480,11 @@ describe('CarritoMainComponent', () => {
             const aplicarBtn = screen.getByText(/Aplicar/i).closest('button');
             
             // Aplicar cupón
-            fireEvent.change(input, { target: { value: 'VERDURAS30' } });
+            fireEvent.change(input, { target: { value: 'FLASH50' } });
             fireEvent.click(aplicarBtn);
             
             await waitFor(() => {
-                expect(screen.getByText(/VERDURAS30/i)).toBeInTheDocument();
+                expect(screen.getByText(/FLASH50/i)).toBeInTheDocument();
             });
             
             // Remover cupón - buscar el botón dentro de la alerta de éxito
@@ -492,7 +494,7 @@ describe('CarritoMainComponent', () => {
             fireEvent.click(removeBtn);
             
             await waitFor(() => {
-                expect(screen.queryByText(/VERDURAS30/i)).not.toBeInTheDocument();
+                expect(screen.queryByText(/FLASH50/i)).not.toBeInTheDocument();
                 expect(screen.getByPlaceholderText(/Ingresa tu código/i)).toBeInTheDocument();
             });
         });
@@ -501,39 +503,41 @@ describe('CarritoMainComponent', () => {
             render(<CarritoMainComponent cartItems={mockProductos} {...mockHandlers} />);
             const input = screen.getByPlaceholderText(/Ingresa tu código/i);
             
-            fireEvent.change(input, { target: { value: 'VERDURAS30' } });
+            fireEvent.change(input, { target: { value: 'FLASH50' } });
             fireEvent.keyPress(input, { key: 'Enter', code: 'Enter', charCode: 13 });
             
             await waitFor(() => {
-                expect(screen.getByText(/VERDURAS30/i)).toBeInTheDocument();
+                expect(screen.getByText(/FLASH50/i)).toBeInTheDocument();
             });
         });
 
         it('debe calcular correctamente el descuento en el total', async () => {
             render(<CarritoMainComponent cartItems={mockProductos} {...mockHandlers} />);
             
-            // Total sin descuento: 2500*2 + 1500*1 = 6500
             const totalSinDescuento = 6500;
             
-            // Verificar total inicial
-            expect(screen.getAllByText(`$${totalSinDescuento.toLocaleString('es-CL')} CLP`).length).toBeGreaterThan(0);
+            // Verificar total inicial - verificar que exista el texto al menos una vez
+            const totalElements = screen.getAllByText(new RegExp(`\\$${totalSinDescuento.toLocaleString('es-CL')} CLP`));
+            expect(totalElements.length).toBeGreaterThan(0);
             
-            // Aplicar cupón del 30%
+            // Aplicar cupón del 50% (FLASH50)
             const input = screen.getByPlaceholderText(/Ingresa tu código/i);
             const aplicarBtn = screen.getByText(/Aplicar/i).closest('button');
             
-            fireEvent.change(input, { target: { value: 'VERDURAS30' } });
+            fireEvent.change(input, { target: { value: 'FLASH50' } });
             fireEvent.click(aplicarBtn);
             
             await waitFor(() => {
-                const descuento = Math.round(totalSinDescuento * 0.30);
+                const descuento = Math.round(totalSinDescuento * 0.5);
                 const totalConDescuento = totalSinDescuento - descuento;
                 
-                // Verificar que muestra el descuento
-                expect(screen.getByText(new RegExp(`-\\$${descuento.toLocaleString('es-CL')} CLP`, 'i'))).toBeInTheDocument();
+                // Verificar que muestra el descuento - puede aparecer múltiples veces
+                const descuentoElements = screen.getAllByText(new RegExp(`-\\$${descuento.toLocaleString('es-CL')} CLP`, 'i'));
+                expect(descuentoElements.length).toBeGreaterThan(0);
                 
-                // Verificar el total con descuento
-                expect(screen.getByText(new RegExp(`\\$${totalConDescuento.toLocaleString('es-CL')} CLP`, 'i'))).toBeInTheDocument();
+                // Verificar el total con descuento - puede aparecer múltiples veces
+                const totalConDescuentoElements = screen.getAllByText(new RegExp(`\\$${totalConDescuento.toLocaleString('es-CL')} CLP`, 'i'));
+                expect(totalConDescuentoElements.length).toBeGreaterThan(0);
             });
         });
 
@@ -551,7 +555,7 @@ describe('CarritoMainComponent', () => {
             });
             
             // Escribir de nuevo
-            fireEvent.change(input, { target: { value: 'VERDURAS30' } });
+            fireEvent.change(input, { target: { value: 'FLASH50' } });
             
             await waitFor(() => {
                 expect(screen.queryByText(/no válido/i)).not.toBeInTheDocument();
@@ -563,12 +567,12 @@ describe('CarritoMainComponent', () => {
             const input = screen.getByPlaceholderText(/Ingresa tu código/i);
             const aplicarBtn = screen.getByText(/Aplicar/i).closest('button');
             
-            fireEvent.change(input, { target: { value: 'VERDURAS30' } });
+            fireEvent.change(input, { target: { value: 'FLASH50' } });
             fireEvent.click(aplicarBtn);
             
             await waitFor(() => {
                 // Buscar el elemento que contiene el descuento con icono
-                const descuentoElement = screen.getByText(/Descuento \(30%\):/i);
+                const descuentoElement = screen.getByText(/Descuento \(50%\):/i);
                 expect(descuentoElement).toBeInTheDocument();
             });
         });

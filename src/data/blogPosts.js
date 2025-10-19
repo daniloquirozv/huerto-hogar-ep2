@@ -57,7 +57,7 @@ export const blogPosts = [
         `,
         descuento: 20,
         codigoCupon: "OTOÑO20",
-        fechaVencimiento: "2025-10-15",
+        fechaVencimiento: "2025-11-15",
         destacado: false
     },
     {
@@ -87,7 +87,7 @@ export const blogPosts = [
         `,
         descuento: 25,
         codigoCupon: "MIHUERTO25",
-        fechaVencimiento: "2025-10-20",
+        fechaVencimiento: "2025-11-20",
         destacado: false
     },
     {

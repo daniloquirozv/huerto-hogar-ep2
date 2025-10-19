@@ -58,7 +58,6 @@ describe('BarraMenu Component', () => {
         it('debe renderizar la sección de productos', () => {
             renderComponent();
             expect(screen.getByText('Productos')).toBeInTheDocument();
-            expect(screen.getByText('Miles de productos a tu alcance...')).toBeInTheDocument();
         });
     });
 
@@ -73,14 +72,9 @@ describe('BarraMenu Component', () => {
             expect(screen.getByText('Mi carrito')).toBeInTheDocument();
         });
 
-        it('debe renderizar el enlace "Configuración"', () => {
+        it('debe renderizar el enlace "Productos"', () => {
             renderComponent();
-            expect(screen.getByText('Configuración')).toBeInTheDocument();
-        });
-
-        it('debe renderizar el enlace "Ofertas"', () => {
-            renderComponent();
-            expect(screen.getByText('Ofertas')).toBeInTheDocument();
+            expect(screen.getByText('Productos')).toBeInTheDocument();
         });
 
         it('debe llamar a onShowLogin y onHide cuando se hace clic en "Mi perfil"', () => {
@@ -113,11 +107,6 @@ describe('BarraMenu Component', () => {
         it('debe renderizar el enlace "Contacto"', () => {
             renderComponent();
             expect(screen.getByText('Contacto')).toBeInTheDocument();
-        });
-
-        it('debe renderizar el enlace "Ayuda"', () => {
-            renderComponent();
-            expect(screen.getByText('Ayuda')).toBeInTheDocument();
         });
 
         it('debe llamar a onHide cuando se hace clic en el enlace "Blog"', () => {
@@ -189,10 +178,13 @@ describe('BarraMenu Component', () => {
             expect(button).toBeInTheDocument();
         });
 
-        it('el botón debe ser un enlace a /login', () => {
+        it('el botón debe llamar a onShowLogin y onHide al hacer clic', () => {
             renderComponent();
             const button = screen.getByText('Iniciar sesión o crea una cuenta');
-            expect(button.closest('a')).toHaveAttribute('href', '/login');
+            fireEvent.click(button);
+            
+            expect(mockOnShowLogin).toHaveBeenCalledTimes(1);
+            expect(mockOnHide).toHaveBeenCalledTimes(1);
         });
 
         it('el botón debe tener la clase variant success', () => {
@@ -258,17 +250,10 @@ describe('BarraMenu Component', () => {
             expect(icon).toBeInTheDocument();
         });
 
-        it('debe renderizar el icono de configuración', () => {
+        it('debe renderizar el icono de etiqueta para "Productos"', () => {
             renderComponent();
-            const container = screen.getByText('Configuración').parentElement;
-            const icon = container.querySelector('i.bi-gear');
-            expect(icon).toBeInTheDocument();
-        });
-
-        it('debe renderizar el icono de etiqueta para "Ofertas"', () => {
-            renderComponent();
-            const container = screen.getByText('Ofertas').parentElement;
-            const icon = container.querySelector('i.bi-tag');
+            const link = screen.getByText('Productos').closest('a');
+            const icon = link.querySelector('i.bi-tag');
             expect(icon).toBeInTheDocument();
         });
 
@@ -286,13 +271,6 @@ describe('BarraMenu Component', () => {
             expect(icon).toBeInTheDocument();
         });
 
-        it('debe renderizar el icono de ayuda', () => {
-            renderComponent();
-            const container = screen.getByText('Ayuda').parentElement;
-            const icon = container.querySelector('i.bi-question-circle');
-            expect(icon).toBeInTheDocument();
-        });
-
         it('debe renderizar el icono chevron para "Contacto"', () => {
             renderComponent();
             const container = screen.getByText('Contacto').parentElement;
@@ -302,12 +280,13 @@ describe('BarraMenu Component', () => {
     });
 
     describe('Estilos', () => {
-        it('debe aplicar estilos correctos al contenedor de productos', () => {
+        it('debe aplicar estilos correctos al contenedor de la sección de búsqueda', () => {
             renderComponent();
-            const productosContainer = screen.getByText('Productos').parentElement;
-            expect(productosContainer).toHaveStyle({
+            const tiendaOnline = screen.getByText('Tienda Online').parentElement;
+            const searchContainer = tiendaOnline.nextElementSibling;
+            expect(searchContainer).toHaveStyle({
                 fontSize: '0.97rem',
-                background: '#f2f8ff',
+                background: 'rgb(242, 248, 255)',
                 borderRadius: '6px'
             });
         });

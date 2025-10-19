@@ -15,23 +15,23 @@ describe('discountUtils', () => {
             expect(result.message).toContain('no válido');
         });
 
-        it('debería aceptar código válido VERDURAS30', () => {
-            const result = validateCoupon('VERDURAS30');
+        it('debería aceptar código válido FLASH50', () => {
+            const result = validateCoupon('FLASH50');
             expect(result.valid).toBe(true);
             expect(result.coupon).toBeDefined();
-            expect(result.coupon.descuento).toBe(30);
+            expect(result.coupon.descuento).toBe(50);
         });
 
         it('debería aceptar código en minúsculas', () => {
-            const result = validateCoupon('verduras30');
+            const result = validateCoupon('flash50');
             expect(result.valid).toBe(true);
-            expect(result.coupon.descuento).toBe(30);
+            expect(result.coupon.descuento).toBe(50);
         });
 
         it('debería aceptar código con espacios', () => {
-            const result = validateCoupon('  VERDURAS30  ');
+            const result = validateCoupon('  FLASH50  ');
             expect(result.valid).toBe(true);
-            expect(result.coupon.descuento).toBe(30);
+            expect(result.coupon.descuento).toBe(50);
         });
 
         it('debería validar código FLASH50', () => {

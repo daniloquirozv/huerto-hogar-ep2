@@ -369,10 +369,10 @@ function CarritoMainComponent({
                                     </div>
                                 </div>
 
-                                <Alert variant="info" className="small">
+                                {/* <Alert variant="info" className="small">
                                     <i className="bi bi-truck me-2"></i>
                                     Envío gratis en compras superiores a $30.000
-                                </Alert>
+                                </Alert> */}
 
                                 <Button
                                     variant="success"

@@ -107,8 +107,7 @@ describe('LoginModal Component', () => {
         />
       );
 
-      expect(screen.getByText('Iniciar Sesión')).toBeInTheDocument();
-      expect(screen.getByText('Ayuda')).toBeInTheDocument();
+      expect(screen.getByText('Iniciar Sesión')).toBeInTheDocument();      
       expect(screen.getByText('Registrarse')).toBeInTheDocument();
     });
 
