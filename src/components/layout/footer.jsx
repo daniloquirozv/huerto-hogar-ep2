@@ -50,6 +50,9 @@ export default function Footer() {
                                 </ul>
                             </div>
                         </div>
+                        <div>
+                            Horarios: <br/> Lunes a Viernes 9:00 - 19:00 hrs<br/>  Sábado 10:00 - 14:00 hrs
+                        </div>
                     </Col>
 
                     {/* Columna centro - Mapa Google */}
