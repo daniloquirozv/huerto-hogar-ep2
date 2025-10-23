@@ -17,8 +17,7 @@ describe('discountUtils', () => {
 
         it('debería aceptar código válido FLASH50', () => {
             const result = validateCoupon('FLASH50');
-            expect(result.valid).toBe(true);
-            expect(result.coupon).toBeDefined();
+            expect(result.valid).toBe(true);            
             expect(result.coupon.descuento).toBe(50);
         });
 
