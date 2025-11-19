@@ -10,8 +10,12 @@ import CarritoPage from './pages/CarritoPage';
 import AdminPage from './pages/AdminPage';
 import RegistroPage from './pages/RegistroPage';
 import ScrollToTop from './components/ui/scrollToTop';
+import { obtenerProductos } from './services/productosService';
 
 function App() {
+  // Estado para productos de la API
+  const [productosAPI, setProductosAPI] = useState([]);
+  
   // Estado global del carrito - inicializado desde localStorage
   const [cartItems, setCartItems] = useState(() => {
     try {
@@ -22,6 +26,45 @@ function App() {
       return [];
     }
   });
+
+  // Cargar productos de la API al iniciar
+  useEffect(() => {
+    const cargarProductos = async () => {
+      try {
+        const productos = await obtenerProductos();
+        setProductosAPI(productos);
+        console.log('Productos cargados desde API:', productos);
+      } catch (error) {
+        console.error('Error al cargar productos desde API:', error);
+      }
+    };
+    cargarProductos();
+  }, []);
+
+  // Sincronizar carrito con productos de la API para tener datos actualizados
+  useEffect(() => {
+    if (productosAPI.length > 0 && cartItems.length > 0) {
+      const cartItemsActualizados = cartItems.map(item => {
+        const productoAPI = productosAPI.find(p => p.codigo === item.codigo || p.id === item.codigo);
+        if (productoAPI) {
+          // Actualizar datos del producto pero mantener la cantidad del carrito
+          return {
+            ...productoAPI,
+            codigo: productoAPI.codigo || productoAPI.id,
+            quantity: item.quantity
+          };
+        }
+        return item;
+      });
+      
+      // Solo actualizar si hay cambios
+      const hayDiferencias = JSON.stringify(cartItems) !== JSON.stringify(cartItemsActualizados);
+      if (hayDiferencias) {
+        console.log('Sincronizando carrito con productos de API');
+        setCartItems(cartItemsActualizados);
+      }
+    }
+  }, [productosAPI]);
 
   // Guardar el carrito en localStorage cada vez que cambie
   useEffect(() => {
@@ -34,16 +77,30 @@ function App() {
 
   // Agregar producto al carrito
   const handleAddToCart = (producto, quantity) => {
-    const existingItemIndex = cartItems.findIndex(item => item.codigo === producto.codigo);
+    // Buscar el producto en la API para tener datos actualizados
+    const productoActualizado = productosAPI.find(p => 
+      p.codigo === producto.codigo || p.id === producto.codigo
+    ) || producto;
+    
+    const codigoProducto = productoActualizado.codigo || productoActualizado.id;
+    const existingItemIndex = cartItems.findIndex(item => item.codigo === codigoProducto);
     
     if (existingItemIndex !== -1) {
       // Si el producto ya existe, actualizar cantidad
       const updatedCart = [...cartItems];
-      updatedCart[existingItemIndex].quantity += quantity;
+      updatedCart[existingItemIndex] = {
+        ...productoActualizado,
+        codigo: codigoProducto,
+        quantity: updatedCart[existingItemIndex].quantity + quantity
+      };
       setCartItems(updatedCart);
     } else {
       // Si es nuevo, agregarlo con la cantidad
-      setCartItems([...cartItems, { ...producto, quantity }]);
+      setCartItems([...cartItems, { 
+        ...productoActualizado, 
+        codigo: codigoProducto,
+        quantity 
+      }]);
     }
   };
 

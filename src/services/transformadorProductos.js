@@ -119,17 +119,29 @@ export const transformarProductosDesdeAPI = (productosAPI) => {
  * @returns {Object} Producto en formato API
  */
 export const transformarProductoParaAPI = (productoFrontend) => {
-  return {
-    idProducto: productoFrontend.id,
+  // Preparar el objeto de categoría
+  let categoriaAPI = null;
+  if (productoFrontend.categoriaId && productoFrontend.categoriaId !== 0) {
+    categoriaAPI = {
+      idCategoria: productoFrontend.categoriaId
+    };
+  }
+  
+  const productoAPI = {
     nombreProducto: productoFrontend.nombre,
     precioProducto: productoFrontend.precio,
     unidadProducto: productoFrontend.unidad,
     stockProducto: productoFrontend.stock,
     descripcionProducto: productoFrontend.descripcion,
-    idCategoria: productoFrontend.categoriaId ? {
-      idCategoria: productoFrontend.categoriaId
-    } : null
+    idCategoria: categoriaAPI
   };
+  
+  console.log('🔄 Transformando producto para API:', {
+    frontend: productoFrontend,
+    api: productoAPI
+  });
+  
+  return productoAPI;
 };
 
 /**

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Button, Badge, Form, Modal, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Badge, Form, Modal, Alert, Spinner } from 'react-bootstrap';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { validateCoupon, calculateDiscount } from '../utils/discountUtils';
+import { procesarCompra } from '../services/productosService';
 
 function CarritoMainComponent({
     cartItems = [],
@@ -14,6 +15,9 @@ function CarritoMainComponent({
     const [couponCode, setCouponCode] = useState('');
     const [appliedCoupon, setAppliedCoupon] = useState(null);
     const [couponMessage, setCouponMessage] = useState({ type: '', text: '' });
+    const [processingPurchase, setProcessingPurchase] = useState(false);
+    const [purchaseMessage, setPurchaseMessage] = useState({ type: '', text: '' });
+    const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
     // Calcular el subtotal del carrito
     const calculateSubtotal = () => {
@@ -104,6 +108,97 @@ function CarritoMainComponent({
         // Limpiar mensaje al escribir
         if (couponMessage.text) {
             setCouponMessage({ type: '', text: '' });
+        }
+    };
+
+    // Procesar el pago y actualizar stock en la BD
+    const handleProcederAlPago = async () => {
+        setProcessingPurchase(true);
+        setPurchaseMessage({ type: '', text: '' });
+
+        try {
+            console.log('🛒 Iniciando proceso de compra...');
+            console.log('Productos en carrito:', cartItems);
+
+            // Preparar datos de compra
+            const productosCompra = cartItems.map(item => {
+                // Extraer el ID del código si no existe id directo
+                let productId = item.id;
+                if (!productId && item.codigo) {
+                    // Si el código es "PROD001", extraer "1"
+                    const match = item.codigo.match(/\d+/);
+                    productId = match ? parseInt(match[0]) : null;
+                }
+                
+                console.log(`Producto: ${item.nombre}, ID: ${productId}, Codigo: ${item.codigo}`);
+                
+                return {
+                    id: productId,
+                    codigo: item.codigo,
+                    nombre: item.nombre,
+                    quantity: item.quantity,
+                    precio: item.precio
+                };
+            });
+            
+            console.log('Productos preparados para compra:', productosCompra);
+
+            // Procesar compra (actualizar stock en BD)
+            const resultado = await procesarCompra(productosCompra);
+
+            if (resultado.success) {
+                // Compra exitosa
+                console.log('✅ Compra procesada exitosamente:', resultado);
+                
+                setPurchaseMessage({
+                    type: 'success',
+                    text: `¡Compra confirmada! Se han actualizado ${resultado.resultados.length} productos en el inventario.`
+                });
+                
+                setShowPurchaseModal(true);
+                
+                // Esperar 2 segundos antes de vaciar el carrito
+                setTimeout(() => {
+                    onClearCart();
+                    setShowPurchaseModal(false);
+                }, 3000);
+                
+            } else {
+                // Error en la compra
+                console.error('❌ Error en la compra:', resultado);
+                
+                // Obtener detalles de los productos que fallaron
+                const productosFallidos = resultado.resultados
+                    .filter(r => !r.success)
+                    .map(r => {
+                        const errorMsg = typeof r.error === 'string' ? r.error : JSON.stringify(r.error);
+                        return `${r.producto.nombre}: ${errorMsg}`;
+                    })
+                    .join('; ');
+                
+                console.error('Productos fallidos:', productosFallidos);
+                console.error('Resultado completo:', JSON.stringify(resultado, null, 2));
+                
+                setPurchaseMessage({
+                    type: 'danger',
+                    text: productosFallidos || resultado.mensaje
+                });
+                
+                setShowPurchaseModal(true);
+            }
+
+        } catch (error) {
+            console.error('❌ Error al procesar el pago:', error);
+            
+            setPurchaseMessage({
+                type: 'danger',
+                text: 'Error al procesar el pago. Por favor, intente nuevamente.'
+            });
+            
+            setShowPurchaseModal(true);
+            
+        } finally {
+            setProcessingPurchase(false);
         }
     };
 
@@ -369,21 +464,37 @@ function CarritoMainComponent({
                                     </div>
                                 </div>
 
-                                {/* <Alert variant="info" className="small">
-                                    <i className="bi bi-truck me-2"></i>
-                                    Envío gratis en compras superiores a $30.000
-                                </Alert> */}
+                {/* <Alert variant="info" className="small">
+                    <i className="bi bi-truck me-2"></i>
+                    Envío gratis en compras superiores a $30.000
+                </Alert> */}
 
-                                <Button
-                                    variant="success"
-                                    size="lg"
-                                    className="w-100 mb-2"
-                                >
-                                    <i className="bi bi-credit-card me-2"></i>
-                                    Proceder al Pago
-                                </Button>
-
-                                <Button
+                <Button
+                    variant="success"
+                    size="lg"
+                    className="w-100 mb-2"
+                    onClick={handleProcederAlPago}
+                    disabled={processingPurchase}
+                >
+                    {processingPurchase ? (
+                        <>
+                            <Spinner
+                                as="span"
+                                animation="border"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                                className="me-2"
+                            />
+                            Procesando compra...
+                        </>
+                    ) : (
+                        <>
+                            <i className="bi bi-credit-card me-2"></i>
+                            Proceder al Pago
+                        </>
+                    )}
+                </Button>                                <Button
                                     variant="outline-success"
                                     className="w-100"
                                     href="/productos"
@@ -461,6 +572,86 @@ function CarritoMainComponent({
                             </Button>
                         </Modal.Footer>
                     </>
+                )}
+            </Modal>
+
+            {/* Modal de confirmación de compra */}
+            <Modal 
+                show={showPurchaseModal} 
+                onHide={() => setShowPurchaseModal(false)} 
+                centered
+                backdrop="static"
+            >
+                <Modal.Header 
+                    closeButton={!processingPurchase}
+                    style={{ 
+                        backgroundColor: purchaseMessage.type === 'success' ? '#198754' : '#dc3545', 
+                        color: 'white' 
+                    }}
+                >
+                    <Modal.Title>
+                        {purchaseMessage.type === 'success' ? (
+                            <>
+                                <i className="bi bi-check-circle-fill me-2"></i>
+                                ¡Compra Exitosa!
+                            </>
+                        ) : (
+                            <>
+                                <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                                Error en la Compra
+                            </>
+                        )}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="text-center py-4">
+                    {purchaseMessage.type === 'success' ? (
+                        <>
+                            <div className="mb-4">
+                                <i className="bi bi-bag-check-fill" style={{ fontSize: '4rem', color: '#198754' }}></i>
+                            </div>
+                            <h5 className="mb-3">Tu compra ha sido procesada correctamente</h5>
+                            <p className="text-muted">{purchaseMessage.text}</p>
+                            <Alert variant="info" className="mt-3">
+                                <i className="bi bi-info-circle me-2"></i>
+                                El inventario ha sido actualizado en la base de datos.
+                            </Alert>
+                            <p className="text-muted small mt-3">
+                                <Spinner animation="border" size="sm" className="me-2" />
+                                Redirigiendo...
+                            </p>
+                        </>
+                    ) : (
+                        <>
+                            <div className="mb-4">
+                                <i className="bi bi-x-circle-fill" style={{ fontSize: '4rem', color: '#dc3545' }}></i>
+                            </div>
+                            <h5 className="mb-3">No se pudo procesar tu compra</h5>
+                            <p className="text-muted">{purchaseMessage.text}</p>
+                            <Alert variant="warning" className="mt-3">
+                                <i className="bi bi-exclamation-triangle me-2"></i>
+                                Por favor, verifica el stock disponible y vuelve a intentarlo.
+                            </Alert>
+                        </>
+                    )}
+                </Modal.Body>
+                {purchaseMessage.type !== 'success' && (
+                    <Modal.Footer>
+                        <Button 
+                            variant="secondary" 
+                            onClick={() => setShowPurchaseModal(false)}
+                        >
+                            Cerrar
+                        </Button>
+                        <Button 
+                            variant="success" 
+                            onClick={() => {
+                                setShowPurchaseModal(false);
+                                handleProcederAlPago();
+                            }}
+                        >
+                            Reintentar
+                        </Button>
+                    </Modal.Footer>
                 )}
             </Modal>
         </Container>
