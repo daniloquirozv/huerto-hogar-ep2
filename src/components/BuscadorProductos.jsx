@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Form, InputGroup, Card, Button, Row, Col, Badge } from 'react-bootstrap';
-import { productos } from '../data/productos';
 
-function BuscadorProductos({ onAddToCart }) {
+function BuscadorProductos({ onAddToCart, productos = [], onRecargar }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [quantities, setQuantities] = useState({});
     const [selectedCategory, setSelectedCategory] = useState('');
     const [priceOrder, setPriceOrder] = useState('');
 
-    // Obtener categorías únicas
+    // Obtener categorías únicas desde los productos recibidos por props
     const categories = [...new Set(productos.map(p => p.categoria))];
 
     useEffect(() => {
@@ -42,7 +41,7 @@ function BuscadorProductos({ onAddToCart }) {
         } else {
             setFilteredProducts([]);
         }
-    }, [searchTerm, selectedCategory, priceOrder]);
+    }, [searchTerm, selectedCategory, priceOrder, productos]);
 
     const handleQuantityChange = (codigo, value) => {
         const numValue = parseInt(value) || 0;

@@ -6,7 +6,17 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    open: true
+    open: true,
+    proxy: {
+      '/api/usuarios': {
+        target: 'http://localhost:8089',
+        changeOrigin: true,
+      },
+      '/api/v1/huertohogar': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      }
+    }
   },
   build: {
     outDir: 'build',
