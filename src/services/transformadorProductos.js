@@ -124,7 +124,7 @@ export const transformarProductoParaAPI = (productoFrontend) => {
  * Log para debugging - muestra cómo se transformó el producto
  */
 export const logTransformacion = (productoAPI) => {
-  console.group('🔄 Transformación de Producto');
+  console.group('Transformación de Producto');
   console.log('Desde API:', productoAPI);
   console.log('A Frontend:', transformarProductoDesdeAPI(productoAPI));
   console.groupEnd();

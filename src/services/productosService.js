@@ -11,17 +11,17 @@ export const obtenerProductos = async () => {
     console.log('🔍 Llamando a la API de productos...');
     const response = await productosApi.get('/productos');
     
-    console.log('📦 Datos crudos de la API:', response.data);
+    console.log('Datos crudos de la API:', response.data);
     
     // Transformar los datos al formato esperado por React
     const productosTransformados = transformarProductosDesdeAPI(response.data);
     
-    console.log('✅ Productos transformados:', productosTransformados);
-    console.log(`📊 Total de productos: ${productosTransformados.length}`);
+    console.log('Productos transformados:', productosTransformados);
+    console.log(`Total de productos: ${productosTransformados.length}`);
     
     return productosTransformados;
   } catch (error) {
-    console.error('❌ Error al obtener productos:', error);
+    console.error('Error al obtener productos:', error);
     if (error.response) {
       console.error('Respuesta del servidor:', error.response.status, error.response.data);
     } else if (error.request) {

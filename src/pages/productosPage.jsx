@@ -21,12 +21,12 @@ function productosPage({ onAddToCart, cartItems, onUpdateQuantity, onRemoveItem 
         setError(null);
         
         try {
-            console.log('🚀 Iniciando carga de productos desde API...');
+            console.log('Iniciando carga de productos desde API...');
             const data = await obtenerProductos();
-            console.log('✅ Productos recibidos:', data);
+            console.log('Productos recibidos:', data);
             
             if (!data || data.length === 0) {
-                console.warn('⚠️ La API no retornó productos');
+                console.warn('La API no retornó productos');
                 setError('No hay productos disponibles en la base de datos.');
                 // Usar productos locales como fallback
                 import('../data/productos').then(module => {
@@ -34,10 +34,10 @@ function productosPage({ onAddToCart, cartItems, onUpdateQuantity, onRemoveItem 
                 });
             } else {
                 setProductos(data);
-                console.log(`📦 ${data.length} productos cargados exitosamente`);
+                console.log(`${data.length} productos cargados exitosamente`);
             }
         } catch (err) {
-            console.error('❌ Error al cargar productos:', err);
+            console.error('Error al cargar productos:', err);
             console.error('Detalles del error:', {
                 message: err.message,
                 response: err.response?.data,
@@ -49,9 +49,9 @@ function productosPage({ onAddToCart, cartItems, onUpdateQuantity, onRemoveItem 
             // Intentar usar productos locales como fallback
             import('../data/productos').then(module => {
                 setProductos(module.productos);
-                console.log('📦 Usando productos locales como respaldo');
+                console.log('Usando productos locales como respaldo');
             }).catch(fallbackErr => {
-                console.error('❌ Error al cargar productos locales:', fallbackErr);
+                console.error('Error al cargar productos locales:', fallbackErr);
             });
         } finally {
             setLoading(false);
@@ -101,7 +101,7 @@ function productosPage({ onAddToCart, cartItems, onUpdateQuantity, onRemoveItem 
             {error && (
                 <div className="container mt-3">
                     <Alert variant="warning" dismissible onClose={() => setError(null)}>
-                        <Alert.Heading>⚠️ Advertencia</Alert.Heading>
+                        <Alert.Heading>Advertencia</Alert.Heading>
                         <p>{error}</p>
                         <p className="mb-0">Se están mostrando productos de respaldo.</p>
                     </Alert>
