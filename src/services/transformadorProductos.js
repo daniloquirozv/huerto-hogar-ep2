@@ -20,13 +20,17 @@ const imagenesProductos = {
   'manzana': manzanasImg,
   'naranja': naranjasImg,
   'platano': platanosImg,
+  'plátano': platanosImg,
   'banana': platanosImg,
+  'banano': platanosImg,
   'zanahoria': zanahoriasImg,
   'espinaca': espinacasImg,
   'pimiento': pimientosImg,
   'miel': mielImg,
   'quinoa': quinoaImg,
-  'yogurt': yogurtImg,  
+  'quinua': quinoaImg,
+  'yogurt': yogurtImg,
+  'yogur': yogurtImg,
   'leche': lecheImg
 };
 
@@ -41,11 +45,19 @@ const imagenDefault = manzanasImg; // Usar manzanas como default
 const obtenerImagenProducto = (nombreProducto) => {
   if (!nombreProducto) return imagenDefault;
   
-  const nombreLower = nombreProducto.toLowerCase();
+  // Normalizar el nombre: minúsculas y sin tildes
+  const nombreNormalizado = nombreProducto
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, ""); // Eliminar tildes
   
   // Buscar coincidencia en el mapa de imágenes
   for (const [keyword, imagen] of Object.entries(imagenesProductos)) {
-    if (nombreLower.includes(keyword)) {
+    const keywordNormalizado = keyword
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+    
+    if (nombreNormalizado.includes(keywordNormalizado)) {
       return imagen;
     }
   }
