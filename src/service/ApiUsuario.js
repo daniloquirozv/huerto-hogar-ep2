@@ -38,4 +38,15 @@ export const eliminarUsuario = async(id)=> {
     }catch (error){
         throw error;
     }
-}
+};
+
+export const loginUsuario = async(correo, contrasena) =>{
+    try{
+        const response = await axios.post(`${API_BASE_URL}/login`,{correo,contrasena});
+            return response.data;
+        }catch(error){
+            throw error;
+        }
+
+};
+

@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../../assets/style/users/Login-styles.css';
 import { Modal } from 'react-bootstrap';
-import users from '../../data/user';
-
+import { loginUsuario } from '../../service/ApiUsuario';
 /**
  * LoginUser
  * Props:
@@ -31,28 +30,38 @@ function LoginUser({ show, handleClose, onLogin }) {
     }
   }, [show]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e)=>{
     e.preventDefault();
     setError('');
 
-    if (!email) {
-      setError('Ingresa un correo válido');
+    if(!email){
+      setError('Ingresa un correo valido');
       return;
     }
-    if (!password) {
+    if (!password){
       setError('Ingresa tu contraseña');
       return;
     }
-
-    const found = users.find((u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
-    if (!found) {
-      setError('Credenciales inválidas. Verifica tu correo y contraseña');
-      return;
+    try{
+      //llama al backend para actualizar
+      const usuario = await loginUsuario(email,password);
+      // login exitoso: pasa el usuario al callback y cierra el modal
+      if(onLogin) onLogin(usuario,remember);
+      handleClose && handleClose();
+    } catch(error){
+      console.error('Error al hacer login',error);
+      
+      // maneja diferentes tipos de errores
+      if(error.response?.data?.message) {
+        setError(error.response.data.message);
+      }else if (error.response?.status ===404){
+        setError('Usuario no encontrado');
+      }else if (error.response?.status===401){
+        setError('Credenciales invalidas o usuario inactivo');
+      } else{
+        setError('Error al conectar con el servidor')
+      }
     }
-
-    // Login exitoso: pasar el user al callback y cerrar modal
-    if (onLogin) onLogin(found, remember);
-    handleClose && handleClose();
   };
 
   return (

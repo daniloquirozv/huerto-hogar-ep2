@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import LoginUser from './ui/Loging';
 
 
+
 export default function LoginModal({ show, handleClose, user, onUserChange }) {
     // currentUser: estado local para reflejar el login dentro del modal
     const [currentUser, setCurrentUser] = useState(user || null);
