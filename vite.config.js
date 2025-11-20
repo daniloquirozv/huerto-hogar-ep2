@@ -7,11 +7,16 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
-    proxy:{
-      '/api':{
+    proxy: {      
+      '/api/v1/huertohogar': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        rewrite: (path) => path // Mantener la ruta completa
+      },      
+      '/api': {
         target: 'http://localhost:8089',
-        changeOrigin:true,
-        secure:false
+        changeOrigin: true,
+        rewrite: (path) => path // Mantener la ruta completa
       }
     }
   },

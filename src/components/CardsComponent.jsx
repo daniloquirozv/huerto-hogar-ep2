@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import '../assets/style/productos/producto-styles.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import { productos } from '../data/productos'
 import { Toast, ToastContainer } from 'react-bootstrap'
 
-function CardsComponent({ onAddToCart }) {
+function CardsComponent({ onAddToCart, productos = [] }) {
     const [quantities, setQuantities] = useState({});
     const [showToast, setShowToast] = useState(false);
     
@@ -27,36 +26,58 @@ function CardsComponent({ onAddToCart }) {
             ...prev,
             [producto.codigo]: 1
         }));
+        
+        // Mostrar notificación
+        setShowToast(true);
     };
 
-    // Group products by category
-    const categorias = {
-        "Frutas Frescas": productos.filter(p => p.categoria === "Frutas Frescas"),
-        "Verduras": productos.filter(p => p.categoria === "Verduras"),
-        "Productos Orgánicos": productos.filter(p => p.categoria === "Productos Orgánicos"),
-        "Productos Lácteos": productos.filter(p => p.categoria === "Productos Lácteos")
-    };
+    // Agrupar productos por categoría usando los datos recibidos de la API
+    const categorias = useMemo(() => {
+        const categoriasUnicas = [...new Set(productos.map(p => p.categoria))];
+        return categoriasUnicas.reduce((acc, categoria) => {
+            acc[categoria] = productos.filter(p => p.categoria === categoria);
+            return acc;
+        }, {});
+    }, [productos]);
 
     const descripcionesCategorias = {
         "Frutas Frescas": "Nuestra selección de frutas frescas ofrece una experiencia directa del campo a tu hogar. Estas frutas se cultivan y cosechan en el punto óptimo de madurez para asegurar su sabor y frescura. Disfruta de una variedad de frutas de temporada que aportan vitaminas y nutrientes esenciales a tu dieta diaria. Perfectas para consumir solas, en ensaladas o como ingrediente principal en postres y smoothies.",
         "Verduras": "Nuestra selección de verduras frescas ofrece una experiencia directa del campo a tu hogar. Estas verduras se cultivan y cosechan en el punto óptimo para asegurar su sabor y frescura. Disfruta de una variedad de verduras de temporada que aportan vitaminas y nutrientes esenciales a tu dieta diaria. Perfectas para consumir en ensaladas o como ingrediente principal en diversos platillos.",
         "Productos Orgánicos": "Nuestros productos orgánicos están elaborados con ingredientes naturales y procesados de manera responsable para mantener sus beneficios saludables. Desde aceites y miel hasta granos y semillas, ofrecemos una selección que apoya un estilo de vida saludable y respetuoso con el medio ambiente.",
-        "Productos Lácteos": "Los productos lácteos de HuertoHogar provienen de granjas locales que se dedican a la producción responsable y de calidad. Ofrecemos una gama de leches, yogures y otros derivados que conservan su frescura y sabor auténtico. Ricos en calcio y nutrientes esenciales, nuestros lácteos son perfectos para complementar una dieta equilibrada, proporcionando el mejor sabor y nutrición para toda la familia."
+        "Productos Lácteos": "Los productos lácteos de HuertoHogar provienen de granjas locales que se dedican a la producción responsable y de calidad. Ofrecemos una gama de leches, yogures y otros derivados que conservan su frescura y sabor auténtico. Ricos en calcio y nutrientes esenciales, nuestros lácteos son perfectos para complementar una dieta equilibrada, proporcionando el mejor sabor y nutrición para toda la familia.",
+        // Variantes alternativas de nombres (sin tildes, minúsculas, etc)
+        "Frutas frescas": "Nuestra selección de frutas frescas ofrece una experiencia directa del campo a tu hogar. Estas frutas se cultivan y cosechan en el punto óptimo de madurez para asegurar su sabor y frescura. Disfruta de una variedad de frutas de temporada que aportan vitaminas y nutrientes esenciales a tu dieta diaria. Perfectas para consumir solas, en ensaladas o como ingrediente principal en postres y smoothies.",
+        "verduras": "Nuestra selección de verduras frescas ofrece una experiencia directa del campo a tu hogar. Estas verduras se cultivan y cosechan en el punto óptimo para asegurar su sabor y frescura. Disfruta de una variedad de verduras de temporada que aportan vitaminas y nutrientes esenciales a tu dieta diaria. Perfectas para consumir en ensaladas o como ingrediente principal en diversos platillos.",
+        "Productos organicos": "Nuestros productos orgánicos están elaborados con ingredientes naturales y procesados de manera responsable para mantener sus beneficios saludables. Desde aceites y miel hasta granos y semillas, ofrecemos una selección que apoya un estilo de vida saludable y respetuoso con el medio ambiente.",
+        "Productos Organicos": "Nuestros productos orgánicos están elaborados con ingredientes naturales y procesados de manera responsable para mantener sus beneficios saludables. Desde aceites y miel hasta granos y semillas, ofrecemos una selección que apoya un estilo de vida saludable y respetuoso con el medio ambiente.",
+        "productos lacteos": "Los productos lácteos de HuertoHogar provienen de granjas locales que se dedican a la producción responsable y de calidad. Ofrecemos una gama de leches, yogures y otros derivados que conservan su frescura y sabor auténtico. Ricos en calcio y nutrientes esenciales, nuestros lácteos son perfectos para complementar una dieta equilibrada, proporcionando el mejor sabor y nutrición para toda la familia.",
+        "Productos lacteos": "Los productos lácteos de HuertoHogar provienen de granjas locales que se dedican a la producción responsable y de calidad. Ofrecemos una gama de leches, yogures y otros derivados que conservan su frescura y sabor auténtico. Ricos en calcio y nutrientes esenciales, nuestros lácteos son perfectos para complementar una dieta equilibrada, proporcionando el mejor sabor y nutrición para toda la familia."
     };
+
+    // Mostrar mensaje si no hay productos
+    if (productos.length === 0) {
+        return (
+            <div className="container my-5 text-center">
+                <i className="bi bi-box-seam" style={{ fontSize: '4rem', color: '#6c757d' }}></i>
+                <p className="text-muted mt-3">No hay productos disponibles en este momento.</p>
+            </div>
+        );
+    }
 
     return (
         <>
             <div className="container my-5">
                 {Object.entries(categorias).map(([categoria, productosCategoria]) => (
-                    <section className="category-section" key={categoria}>
-                        <div className="card">
-                            <h2 className="category-title">{categoria}</h2>
-                            <p className="category-description">
-                                {descripcionesCategorias[categoria]}
-                            </p>
-                        </div>
-                        <div className="row g-4">
-                            {productosCategoria.map((producto) => (
+                    productosCategoria.length > 0 && (
+                        <section className="category-section" key={categoria}>
+                            <div className="card">
+                                <h2 className="category-title">{categoria}</h2>
+                                <p className="category-description">
+                                    {descripcionesCategorias[categoria] || `Productos de ${categoria}`}
+                                </p>
+                            </div>
+                            <div className="row g-4">
+                                {productosCategoria.map((producto) => (
                                 <div className="col-lg-4 col-md-6" key={producto.codigo}>
                                     <div className="card product-card">
                                         <div className="position-relative">
@@ -96,6 +117,7 @@ function CardsComponent({ onAddToCart }) {
                             ))}
                         </div>
                     </section>
+                    )
                 ))}
             </div>
 
@@ -108,7 +130,15 @@ function CardsComponent({ onAddToCart }) {
                     autohide
                     bg="success"
                 >
-                    
+                    <Toast.Header>
+                        <strong className="me-auto">
+                            <i className="bi bi-check-circle-fill me-2"></i>
+                            Producto Agregado
+                        </strong>
+                    </Toast.Header>
+                    <Toast.Body className="text-white">
+                        El producto se agregó correctamente al carrito
+                    </Toast.Body>
                 </Toast>
             </ToastContainer>
         </>
