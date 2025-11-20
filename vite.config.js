@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: './',
   server: {
     port: 3000,
     open: true,
@@ -14,7 +15,7 @@ export default defineConfig({
         rewrite: (path) => path // Mantener la ruta completa
       },      
       '/api': {
-        target: 'http://localhost:8089',
+        target: 'http://52.1.232.64:8089',
         changeOrigin: true,
         rewrite: (path) => path // Mantener la ruta completa
       }
