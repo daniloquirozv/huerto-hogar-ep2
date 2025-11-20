@@ -50,7 +50,7 @@ export default function LoginModal({ show, handleClose, user, onUserChange }) {
                         <>
                             <ListGroup.Item action onClick={() => setShowLogingModal(true)}>
                                 <i className="bi bi-box-arrow-in-right me-2"></i> Iniciar Sesión
-                            </ListGroup.Item>                            
+                            </ListGroup.Item>
                             <ListGroup.Item action onClick={() => { handleClose && handleClose(); navigate('/registro'); }}>
                                 <i className="bi bi-person-plus me-2"></i> Registrarse
                             </ListGroup.Item>
@@ -66,6 +66,12 @@ export default function LoginModal({ show, handleClose, user, onUserChange }) {
                             <ListGroup.Item action onClick={() => console.log('Abrir Ayuda')}>
                                 <i className="bi bi-question-circle me-2"></i> Ayuda
                             </ListGroup.Item>
+                            {currentUser?.rol?.id_rol === 1 && (
+                                <ListGroup.Item action onClick={() => { handleClose && handleClose(); navigate('/admin'); }}>
+                                    <i className="bi bi-shield-fill-check me-2"></i> Panel Administrador
+                                </ListGroup.Item>
+                            )}
+
                             <ListGroup.Item action onClick={handleLogout}>
                                 <i className="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
                             </ListGroup.Item>
