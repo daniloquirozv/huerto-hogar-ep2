@@ -12,12 +12,12 @@ export default defineConfig({
       '/api/v1/huertohogar': {
         target: 'http://54.211.142.251:8080',
         changeOrigin: true,
-        rewrite: (path) => path // Mantener la ruta completa
+        rewrite: (path) => path
       },      
-      '/api': {
+      '/api/v1/usuario': {
         target: 'http://52.1.232.64:8089',
         changeOrigin: true,
-        rewrite: (path) => path // Mantener la ruta completa
+        rewrite: (path) => path
       }
     }
   },
