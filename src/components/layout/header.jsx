@@ -56,6 +56,7 @@ export default function Header({ cartItems = [], onUpdateQuantity, onRemoveItem 
                         <Nav.Link as={Link} to="/productos">Productos</Nav.Link>
                         <Nav.Link as={Link} to="/blog">Blog</Nav.Link>
                         <Nav.Link as={Link} to="/carrito">Carrito</Nav.Link>
+                        <Nav.Link as={Link} to="/admin">Admin</Nav.Link>
                         <Nav.Link
                             href="#contacto"
                             onClick={(e) => {

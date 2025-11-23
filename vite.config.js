@@ -10,7 +10,7 @@ export default defineConfig({
     open: true,
     proxy: {      
       '/api/v1/huertohogar': {
-        target: 'http://localhost:8080',
+        target: 'http://54.211.142.251:8080',
         changeOrigin: true,
         rewrite: (path) => path // Mantener la ruta completa
       },      
@@ -23,7 +23,16 @@ export default defineConfig({
   },
   build: {
     outDir: 'build',
-    sourcemap: true
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        // Genera nombres de archivo únicos basados en el contenido (hash)
+        // Esto evita problemas de caché del navegador
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
+      }
+    }
   },
   css: {
     devSourcemap: true

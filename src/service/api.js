@@ -1,8 +1,15 @@
 import axios from 'axios';
 
-// Configuración base para las APIs
-const API_USUARIOS_BASE = '/api/usuarios';
-const API_PRODUCTOS_BASE = '/api/v1/huertohogar'; // Ruta correcta de tu Spring Boot
+// Configuración base para las APIs usando variables de entorno
+// En desarrollo usa el proxy de Vite (/api/...)
+// En producción usa las URLs directas de EC2
+const API_USUARIOS_BASE = import.meta.env.VITE_API_USUARIOS_URL || '/api/usuarios';
+const API_PRODUCTOS_BASE = import.meta.env.VITE_API_PRODUCTOS_URL || '/api/v1/huertohogar';
+
+console.log('🔧 Configuración de API:');
+console.log('  - Productos:', API_PRODUCTOS_BASE);
+console.log('  - Usuarios:', API_USUARIOS_BASE);
+console.log('  - Modo:', import.meta.env.MODE);
 
 // Instancia de Axios para Usuarios (puerto 8089)
 export const usuariosApi = axios.create({
