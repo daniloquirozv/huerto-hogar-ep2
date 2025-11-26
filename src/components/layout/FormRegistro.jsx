@@ -102,7 +102,14 @@ const FormRegistro = () => {
                 // reset el formulario
                 setFormData(initialState);
                 setErrores({});
-                alert('Registro exitoso usuario guardado en el back');
+                
+                // Mostrar modal de éxito
+                setShowSuccess(true);
+
+                // Redirigir a la página de inicio después de 3 segundos
+                setTimeout(() => {
+                    navigate('/');
+                }, 3000);
 
                 
             } catch (error){
@@ -122,10 +129,32 @@ const FormRegistro = () => {
         }
     };
 
+    // Función para volver al inicio
+    const handleVolverInicio = () => {
+        navigate('/');
+    };
+
     return (
-        <div className="registro-frame registro-container">
-            <div className="registro-title">Registro</div>
-            <form onSubmit={handleSubmit} noValidate>
+        <>
+            {/* Modal de éxito */}
+            {showSuccess && (
+                <div className="success-modal-overlay">
+                    <div className="success-modal">
+                        <div className="success-icon">✓</div>
+                        <h2 className="success-title">¡Registro Exitoso!</h2>
+                        <p className="success-message">
+                            Tu cuenta ha sido creada correctamente.
+                        </p>
+                        <p className="success-redirect">
+                            Serás redirigido a la página de inicio en unos momentos...
+                        </p>
+                    </div>
+                </div>
+            )}
+
+            <div className="registro-frame registro-container">
+                <div className="registro-title">Registro</div>
+                <form onSubmit={handleSubmit} noValidate>
                 {/* Nombre */}
                 <div className="mb-3">
                     <label htmlFor="nombre" className="form-label">Nombre</label>
@@ -251,9 +280,16 @@ const FormRegistro = () => {
                     <div id="error-password2" role="alert" className="invalid-feedback">{errores.password2}</div>
                 </div>
 
-                <button type="submit" className="btn-registro-submit">Registrarse</button>
+                {/* Botones de registro y volver */}
+                <div className="registro-buttons">
+                    <button type="submit" className="btn-registro-submit">Registrarse</button>
+                    <button type="button" className="btn-volver-inicio" onClick={handleVolverInicio}>
+                        Volver al Inicio
+                    </button>
+                </div>
             </form>
         </div>
+        </>
     );
 };
 

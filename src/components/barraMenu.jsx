@@ -3,7 +3,7 @@ import { Offcanvas, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logotipo from '../assets/images/principal/LogoTipo.png';
 
-export default function BarraMenu({ show, onHide, onShowLogin, onShowCart }) {
+export default function BarraMenu({ show, onHide, onShowLogin, onShowCart, currentUser }) {
     useEffect(() => {
         document.body.classList.toggle('non-scroll', show);
         return () => document.body.classList.remove('non-scroll');

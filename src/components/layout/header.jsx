@@ -6,7 +6,7 @@ import LoginModal from "../loginModal";
 import BarraMenu from "../barraMenu";
 import logotipo from '../../assets/images/principal/LogoTipo.png';
 
-export default function Header({ cartItems = [], onUpdateQuantity, onRemoveItem }) {
+export default function Header({ cartItems = [], onUpdateQuantity, onRemoveItem, currentUser, onUserLogin, onUserLogout }) {
 
     const [showMenu, setShowMenu] = useState(false);
     const [showCart, setShowCart] = useState(false);
@@ -56,7 +56,7 @@ export default function Header({ cartItems = [], onUpdateQuantity, onRemoveItem 
                         <Nav.Link as={Link} to="/productos">Productos</Nav.Link>
                         <Nav.Link as={Link} to="/blog">Blog</Nav.Link>
                         <Nav.Link as={Link} to="/carrito">Carrito</Nav.Link>
-                        <Nav.Link as={Link} to="/admin">Admin</Nav.Link>
+
                         <Nav.Link
                             href="#contacto"
                             onClick={(e) => {
@@ -104,12 +104,19 @@ export default function Header({ cartItems = [], onUpdateQuantity, onRemoveItem 
                 onUpdateQuantity={onUpdateQuantity}
                 onRemoveFromCart={onRemoveItem}
             />
-            <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} />
+            <LoginModal 
+                show={showLogin} 
+                handleClose={() => setShowLogin(false)} 
+                user={currentUser}
+                onUserChange={onUserLogin}
+                onUserLogout={onUserLogout}
+            />
             <BarraMenu
                 show={showMenu}
                 onHide={() => setShowMenu(false)}
                 onShowLogin={() => setShowLogin(true)}
                 onShowCart={() => setShowCart(true)}
+                currentUser={currentUser}
             />
         </>
     )

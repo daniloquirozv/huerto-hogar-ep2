@@ -6,7 +6,7 @@ import CardsComponent from '../components/CardsComponent'
 import { obtenerProductos } from '../service/productosService'
 import { Spinner, Alert } from 'react-bootstrap'
 
-function productosPage({ onAddToCart, cartItems, onUpdateQuantity, onRemoveItem }) {
+function productosPage({ onAddToCart, cartItems, onUpdateQuantity, onRemoveItem, currentUser, onUserLogin, onUserLogout }) {
     const [productos, setProductos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -78,6 +78,9 @@ function productosPage({ onAddToCart, cartItems, onUpdateQuantity, onRemoveItem 
                     cartItems={cartItems}
                     onUpdateQuantity={onUpdateQuantity}
                     onRemoveItem={onRemoveItem}
+                    currentUser={currentUser}
+                    onUserLogin={onUserLogin}
+                    onUserLogout={onUserLogout}
                 />
                 <div className="container text-center my-5">
                     <Spinner animation="border" role="status" style={{ color: '#2E8B57' }}>
@@ -96,6 +99,9 @@ function productosPage({ onAddToCart, cartItems, onUpdateQuantity, onRemoveItem 
                 cartItems={cartItems}
                 onUpdateQuantity={onUpdateQuantity}
                 onRemoveItem={onRemoveItem}
+                currentUser={currentUser}
+                onUserLogin={onUserLogin}
+                onUserLogout={onUserLogout}
             />
             
             {error && (

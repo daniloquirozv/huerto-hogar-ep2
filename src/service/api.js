@@ -20,6 +20,25 @@ export const usuariosApi = axios.create({
   }
 });
 
+// Interceptor para agregar token a las peticiones
+usuariosApi.interceptors.request.use(
+  (config) => {
+    const userData = localStorage.getItem('huertoHogarUser');
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        if (user.token) {
+          config.headers.Authorization = `Bearer ${user.token}`;
+        }
+      } catch (error) {
+        console.error('Error al parsear usuario de localStorage:', error);
+      }
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 // Instancia de Axios para Productos (puerto 8080)
 export const productosApi = axios.create({
   baseURL: API_PRODUCTOS_BASE,
@@ -28,6 +47,25 @@ export const productosApi = axios.create({
     'Content-Type': 'application/json',
   }
 });
+
+// Interceptor para agregar token a las peticiones de productos
+productosApi.interceptors.request.use(
+  (config) => {
+    const userData = localStorage.getItem('huertoHogarUser');
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        if (user.token) {
+          config.headers.Authorization = `Bearer ${user.token}`;
+        }
+      } catch (error) {
+        console.error('Error al parsear usuario de localStorage:', error);
+      }
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 // Interceptor para manejar errores globalmente
 const handleError = (error) => {

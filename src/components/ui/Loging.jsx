@@ -45,6 +45,12 @@ function LoginUser({ show, handleClose, onLogin }) {
     try{
       //llama al backend para actualizar
       const usuario = await loginUsuario(email,password);
+      
+      // Guardar en localStorage si el checkbox está marcado
+      if (remember) {
+        localStorage.setItem('huertoHogarUser', JSON.stringify(usuario));
+      }
+      
       // login exitoso: pasa el usuario al callback y cierra el modal
       if(onLogin) onLogin(usuario,remember);
       handleClose && handleClose();

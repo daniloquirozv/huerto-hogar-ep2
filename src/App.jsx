@@ -10,30 +10,33 @@ import CarritoPage from './pages/CarritoPage';
 import AdminPage from './pages/AdminPage';
 import RegistroPage from './pages/RegistroPage';
 import ScrollToTop from './components/ui/scrollToTop';
+import ProtectedRoute from './components/ProtectedRoute';
 import { obtenerProductos } from './service/productosService';
+import { getCartForUser, saveCartForUser, clearCartForUser, migrateGuestCartToUser } from './utils/cartUtils';
 
 function App() {
-  // Estado global del carrito - inicializado desde localStorage
-  const [cartItems, setCartItems] = useState(() => {
+  // Estado global del usuario - inicializado desde localStorage
+  const [currentUser, setCurrentUser] = useState(() => {
     try {
-      const savedCart = localStorage.getItem('huertoHogarCart');
-      return savedCart ? JSON.parse(savedCart) : [];
+      const savedUser = localStorage.getItem('huertoHogarUser');
+      return savedUser ? JSON.parse(savedUser) : null;
     } catch (error) {
-      console.error('Error al cargar el carrito desde localStorage:', error);
-      return [];
+      console.error('Error al cargar el usuario desde localStorage:', error);
+      return null;
     }
+  });
+
+  // Estado global del carrito - inicializado según el usuario actual
+  const [cartItems, setCartItems] = useState(() => {
+    return getCartForUser(currentUser);
   });
 
   const [productosAPI, setProductosAPI] = useState([]);
 
-  // Guardar el carrito en localStorage cada vez que cambie
+  // Guardar el carrito del usuario actual en localStorage cada vez que cambie
   useEffect(() => {
-    try {
-      localStorage.setItem('huertoHogarCart', JSON.stringify(cartItems));
-    } catch (error) {
-      console.error('Error al guardar el carrito en localStorage:', error);
-    }
-  }, [cartItems]);
+    saveCartForUser(currentUser, cartItems);
+  }, [cartItems, currentUser]);
 
   // Agregar producto al carrito
   const handleAddToCart = (producto, quantity) => {
@@ -131,11 +134,48 @@ function App() {
     setCartItems(cartItems.filter(item => item.codigo !== codigo));
   };
 
-  // Vaciar carrito
+  // Vaciar carrito del usuario actual
   const handleClearCart = () => {
     setCartItems([]);
-    localStorage.removeItem('huertoHogarCart');
+    clearCartForUser(currentUser);
   };
+
+  // Manejar login de usuario
+  const handleUserLogin = (user, remember) => {
+    console.log('👤 Usuario iniciando sesión:', user?.email || user?.id);
+    
+    // Actualizar usuario actual
+    setCurrentUser(user);
+    
+    if (remember) {
+      localStorage.setItem('huertoHogarUser', JSON.stringify(user));
+    }
+
+    // Migrar carrito de invitado a usuario y cargar carrito del usuario
+    const userCart = migrateGuestCartToUser(user);
+    setCartItems(userCart);
+    
+    console.log(`🛒 Carrito cargado: ${userCart.length} items`);
+  };
+
+  // Manejar logout de usuario
+  const handleUserLogout = () => {
+    console.log('👋 Usuario cerrando sesión');
+    
+    // Guardar carrito actual antes de cerrar sesión
+    saveCartForUser(currentUser, cartItems);
+    
+    // Limpiar usuario
+    setCurrentUser(null);
+    localStorage.removeItem('huertoHogarUser');
+    
+    // Cargar carrito de invitado (vacío o con items previos)
+    const guestCart = getCartForUser(null);
+    setCartItems(guestCart);
+    
+    console.log('🛒 Cambiado a carrito de invitado');
+  };
+
   return (
     <>
       <ScrollToTop />
@@ -146,6 +186,9 @@ function App() {
           onAddToCart={handleAddToCart}
           onUpdateQuantity={handleUpdateQuantity}
           onRemoveItem={handleRemoveItem}
+          currentUser={currentUser}
+          onUserLogin={handleUserLogin}
+          onUserLogout={handleUserLogout}
         />}/>
 
         <Route path='/productos'
@@ -154,6 +197,9 @@ function App() {
           onAddToCart={handleAddToCart}
           onUpdateQuantity={handleUpdateQuantity}
           onRemoveItem={handleRemoveItem}
+          currentUser={currentUser}
+          onUserLogin={handleUserLogin}
+          onUserLogout={handleUserLogout}
         />}/>
 
         <Route path='/blog'
@@ -161,6 +207,9 @@ function App() {
           cartItems={cartItems}
           onUpdateQuantity={handleUpdateQuantity}
           onRemoveItem={handleRemoveItem}
+          currentUser={currentUser}
+          onUserLogin={handleUserLogin}
+          onUserLogout={handleUserLogout}
         />}/>
 
         <Route path='/carrito'
@@ -169,10 +218,17 @@ function App() {
           onUpdateQuantity={handleUpdateQuantity}
           onRemoveItem={handleRemoveItem}
           onClearCart={handleClearCart}
+          currentUser={currentUser}
+          onUserLogin={handleUserLogin}
+          onUserLogout={handleUserLogout}
         />}/>
 
         <Route path='/admin'
-        element={<AdminPage/>}/>
+        element={
+          <ProtectedRoute requireAdmin={true} redirectTo="/">
+            <AdminPage/>
+          </ProtectedRoute>
+        }/>
 
         <Route path='/registro'
         element={<RegistroPage/>}/>

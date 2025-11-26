@@ -195,3 +195,135 @@
     background-color: #2E8B57;
     border-radius: 8px 8px 0px 0px;
 }
+
+/* Modal de éxito */
+.success-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.success-modal {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f9f4 100%);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(46, 139, 87, 0.3);
+    border: 3px solid #28a745;
+    animation: slideDown 0.4s ease-out;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 10px 30px rgba(40, 167, 69, 0.4);
+    animation: scaleUp 0.5s ease-out;
+}
+
+.success-title {
+    color: #2E8B57;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.success-message {
+    color: #333;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.success-redirect {
+    color: #666;
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-top: 20px;
+}
+
+/* Botón Volver al Inicio */
+.btn-volver-inicio {
+    border-radius: 3px 16px 3px 16px;
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    color: white !important;
+    padding: 8px 14px;
+    border: none !important;
+    transition: all 0.3s ease;
+}
+
+.btn-volver-inicio:hover {
+    background: linear-gradient(135deg, #5a6268 0%, #495057 100%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+/* Responsive para modal de éxito */
+@media (max-width: 480px) {
+    .success-modal {
+        padding: 30px 20px;
+    }
+    
+    .success-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 40px;
+    }
+    
+    .success-title {
+        font-size: 1.5rem;
+    }
+    
+    .success-message {
+        font-size: 1rem;
+    }
+}
