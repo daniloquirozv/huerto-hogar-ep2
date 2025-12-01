@@ -38,10 +38,11 @@ export default function Body() {
                             </p>
                             <div className="d-flex flex-column flex-md-row gap-3 justify-content-center">
                                 <Button
+                                    as={Link}
+                                    to="/productos"
                                     variant="success"
                                     size="lg"
                                     className="shadow-lg px-4 py-3"
-                                    href="/productos"
                                 >
                                     <i className="fas fa-seedling me-2"></i>
                                     Explorar Productos

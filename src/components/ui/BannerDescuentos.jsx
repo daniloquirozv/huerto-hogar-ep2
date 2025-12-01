@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Button, Badge, Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { promocionesActivas } from '../../data/blogPosts';
 import '../../assets/style/principal/principal-base-style.css';
 import '../../assets/style/principal/principal-banner-style.css';
@@ -97,9 +98,10 @@ const BannerDescuentos = () => {
                                     </Button>
                                 </div>
                                 <Button 
+                                    as={Link}
+                                    to="/productos"
                                     variant="success" 
                                     className="btn-aprovechar"
-                                    href="/productos"
                                 >
                                     <i className="bi bi-cart-plus me-2"></i>
                                     ¡Aprovechar Oferta!
