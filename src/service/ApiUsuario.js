@@ -1,11 +1,11 @@
-import axios from "axios";
+import { usuariosApi } from './api';
 
 
-const API_BASE_URL ='/api/v1/usuario';
+// Ya no necesitamos definir API_BASE_URL aquí, usamos la instancia configurada de api.js
 
 export const guardarUsuario = async(usuarioData)=> {
     try{
-        const response = await axios.post(`${API_BASE_URL}/guardar`, usuarioData);
+        const response = await usuariosApi.post('/guardar', usuarioData);
         return response.data;
     } catch(error){
         throw error;
@@ -15,7 +15,7 @@ export const guardarUsuario = async(usuarioData)=> {
 
 export const obtenerUsuarios = async() => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/listar`);
+        const response = await usuariosApi.get('/listar');
         return response.data;
     } catch(error) {
         throw error;
@@ -24,7 +24,7 @@ export const obtenerUsuarios = async() => {
 
 export const actualizarUsuario = async(id,usuarioData)=>{
     try{
-        const response = await axios.put(`${API_BASE_URL}/${id}/actualizar`, usuarioData);
+        const response = await usuariosApi.put(`/${id}/actualizar`, usuarioData);
         return response.data;
     } catch(error){
         throw error;
@@ -33,7 +33,7 @@ export const actualizarUsuario = async(id,usuarioData)=>{
 
 export const eliminarUsuario = async(id)=> {
     try {
-        const response = await axios.delete(`${API_BASE_URL}/${id}/eliminar`);
+        const response = await usuariosApi.delete(`/${id}/eliminar`);
         return response.data;
     }catch (error){
         throw error;
@@ -43,13 +43,8 @@ export const eliminarUsuario = async(id)=> {
 //CAMBIOS LOGIN
 export const loginUsuario = async(correo, contrasena) =>{
     try{
-        const response = await axios.post(`${API_BASE_URL}/login`,{correo,contrasena});
-        let datosRespuesta = response.data;
-        
-        // Validar que tengamos respuesta
-        if (!datosRespuesta) {
-            throw new Error('No se recibió información del servidor');
-        }
+        const response = await usuariosApi.post('/login',{correo,contrasena});
+        const datosRespuesta = response.data;
 
         console.log('📥 Respuesta del backend:', datosRespuesta);
 

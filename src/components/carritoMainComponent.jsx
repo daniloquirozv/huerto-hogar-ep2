@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button, Badge, Form, Modal, Alert, Spinner } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { validateCoupon, calculateDiscount } from '../utils/discountUtils';
 import { procesarCompra } from '../service/productosService';
@@ -220,7 +221,7 @@ function CarritoMainComponent({
                         <i className="bi bi-cart-x" style={{ fontSize: '5rem', color: '#6c757d' }}></i>
                         <h3 className="mt-4 text-muted">Tu carrito está vacío</h3>
                         <p className="text-muted">Agrega productos para comenzar tu compra</p>
-                        <Button variant="success" size="lg" href="/productos" className="mt-3">
+                        <Button as={Link} to="/productos" variant="success" size="lg" className="mt-3">
                             <i className="bi bi-shop me-2"></i>
                             Ir a la Tienda
                         </Button>
@@ -495,9 +496,10 @@ function CarritoMainComponent({
                         </>
                     )}
                 </Button>                                <Button
+                                    as={Link}
+                                    to="/productos"
                                     variant="outline-success"
                                     className="w-100"
-                                    href="/productos"
                                 >
                                     <i className="bi bi-arrow-left me-2"></i>
                                     Seguir Comprando

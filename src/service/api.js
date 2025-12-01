@@ -3,7 +3,7 @@ import axios from 'axios';
 // Configuración base para las APIs usando variables de entorno
 // En desarrollo usa el proxy de Vite (/api/...)
 // En producción usa las URLs directas de EC2
-const API_USUARIOS_BASE = import.meta.env.VITE_API_USUARIOS_URL || '/api/usuarios';
+const API_USUARIOS_BASE = import.meta.env.VITE_API_USUARIOS_URL || '/api/v1/usuario';
 const API_PRODUCTOS_BASE = import.meta.env.VITE_API_PRODUCTOS_URL || '/api/v1/huertohogar';
 
 console.log('🔧 Configuración de API:');

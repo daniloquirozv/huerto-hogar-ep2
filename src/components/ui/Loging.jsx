@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import '../../assets/style/users/Login-styles.css';
 import { Modal } from 'react-bootstrap';
 import { loginUsuario } from '../../service/ApiUsuario';
@@ -111,7 +112,7 @@ function LoginUser({ show, handleClose, onLogin }) {
             <label htmlFor="remember">Recuérdame</label>
           </div>
 
-          <p className="sin-cuenta">si no tienes cuenta <a href="/registro">regístrate aquí</a></p>
+          <p className="sin-cuenta">si no tienes cuenta <Link to="/registro">regístrate aquí</Link></p>
 
           {error && <div className="login-error" role="alert">{error}</div>}
 
