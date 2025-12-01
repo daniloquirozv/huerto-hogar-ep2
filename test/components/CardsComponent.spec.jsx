@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, fireEvent, within } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import CardsComponent from '../../src/components/CardsComponent'
 import { productos } from '../../src/data/productos'
 
@@ -11,13 +11,18 @@ describe('CardsComponent', () => {
     })
 
     describe('Renderizado inicial', () => {
-        it('debe renderizar el componente correctamente', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+        it('debe renderizar el componente correctamente con productos', () => {
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             expect(screen.getByText('Frutas Frescas')).toBeInTheDocument()
         })
 
+        it('debe mostrar mensaje cuando no hay productos', () => {
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={[]} />)
+            expect(screen.getByText('No hay productos disponibles en este momento.')).toBeInTheDocument()
+        })
+
         it('debe renderizar todas las categorías correctamente', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             expect(screen.getByText('Frutas Frescas')).toBeInTheDocument()
             expect(screen.getByText('Verduras')).toBeInTheDocument()
@@ -26,7 +31,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe renderizar las descripciones de cada categoría', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             expect(screen.getByText(/Nuestra selección de frutas frescas/i)).toBeInTheDocument()
             expect(screen.getByText(/Nuestra selección de verduras frescas/i)).toBeInTheDocument()
@@ -35,7 +40,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe renderizar todos los productos del catálogo', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             productos.forEach(producto => {
                 expect(screen.getByText(producto.nombre)).toBeInTheDocument()
@@ -43,7 +48,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe mostrar la información básica de cada producto', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const primerProducto = productos[0]
             expect(screen.getByText(primerProducto.nombre)).toBeInTheDocument()
@@ -52,7 +57,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe mostrar el stock disponible de cada producto', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             productos.forEach(producto => {
                 const stockText = `${producto.stock} ${producto.unidad} disponibles`
@@ -61,7 +66,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe renderizar las imágenes de los productos', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             productos.forEach(producto => {
                 const images = screen.getAllByAltText(producto.nombre)
@@ -71,7 +76,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe mostrar la descripción de cada producto', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             productos.forEach(producto => {
                 expect(screen.getByText(producto.descripcion)).toBeInTheDocument()
@@ -79,14 +84,14 @@ describe('CardsComponent', () => {
         })
 
         it('debe renderizar el botón "Agregar al Carrito" para cada producto', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const buttons = screen.getAllByText(/Agregar al Carrito/i)
             expect(buttons.length).toBe(productos.length)
         })
 
         it('debe renderizar un input de cantidad para cada producto', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const cantidadInputs = screen.getAllByDisplayValue('1')
             expect(cantidadInputs.length).toBeGreaterThanOrEqual(productos.length)
@@ -95,7 +100,7 @@ describe('CardsComponent', () => {
 
     describe('Gestión de cantidades', () => {
         it('debe inicializar la cantidad en 1 para todos los productos', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const inputs = screen.getAllByRole('spinbutton')
             inputs.forEach(input => {
@@ -104,7 +109,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe cambiar la cantidad cuando el usuario modifica el input', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const inputs = screen.getAllByRole('spinbutton')
             const primerInput = inputs[0]
@@ -114,7 +119,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe manejar múltiples cambios de cantidad en diferentes productos', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const inputs = screen.getAllByRole('spinbutton')
             
@@ -126,7 +131,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe establecer la cantidad en 1 si el valor es 0 o negativo', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const inputs = screen.getAllByRole('spinbutton')
             
@@ -138,7 +143,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe manejar valores no numéricos estableciendo la cantidad en 1', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const inputs = screen.getAllByRole('spinbutton')
             
@@ -147,7 +152,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe respetar el atributo max basado en el stock', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const inputs = screen.getAllByRole('spinbutton')
             const primerProducto = productos[0]
@@ -156,7 +161,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe tener el atributo min en 1', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const inputs = screen.getAllByRole('spinbutton')
             inputs.forEach(input => {
@@ -167,7 +172,7 @@ describe('CardsComponent', () => {
 
     describe('Agregar al carrito', () => {
         it('debe llamar a onAddToCart cuando se hace clic en el botón', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const buttons = screen.getAllByText(/Agregar al Carrito/i)
             fireEvent.click(buttons[0])
@@ -176,7 +181,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe llamar a onAddToCart con el producto correcto y cantidad 1 por defecto', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const primerProducto = productos[0]
             const buttons = screen.getAllByText(/Agregar al Carrito/i)
@@ -187,7 +192,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe llamar a onAddToCart con la cantidad seleccionada', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const primerProducto = productos[0]
             const inputs = screen.getAllByRole('spinbutton')
@@ -200,7 +205,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe resetear la cantidad a 1 después de agregar al carrito', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const inputs = screen.getAllByRole('spinbutton')
             const buttons = screen.getAllByText(/Agregar al Carrito/i)
@@ -212,7 +217,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe permitir agregar múltiples productos al carrito', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const buttons = screen.getAllByText(/Agregar al Carrito/i)
             
@@ -224,7 +229,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe agregar el mismo producto múltiples veces', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const primerProducto = productos[0]
             const buttons = screen.getAllByText(/Agregar al Carrito/i)
@@ -237,7 +242,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe manejar diferentes cantidades para diferentes productos', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const inputs = screen.getAllByRole('spinbutton')
             const buttons = screen.getAllByText(/Agregar al Carrito/i)
@@ -255,7 +260,7 @@ describe('CardsComponent', () => {
 
     describe('Agrupación por categorías', () => {
         it('debe agrupar los productos por categoría correctamente', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const categorias = ['Frutas Frescas', 'Verduras', 'Productos Orgánicos', 'Productos Lácteos']
             
@@ -266,7 +271,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe mostrar solo los productos de la categoría Frutas Frescas en esa sección', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const frutasFrescas = productos.filter(p => p.categoria === 'Frutas Frescas')
             
@@ -276,7 +281,7 @@ describe('CardsComponent', () => {
         })
 
         it('debe renderizar las secciones en el orden correcto', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const categorySections = screen.getAllByText(/Frutas Frescas|Verduras|Productos Orgánicos|Productos Lácteos/i)
                 .filter(el => el.classList.contains('category-title'))
@@ -290,42 +295,42 @@ describe('CardsComponent', () => {
 
     describe('Interfaz y clases CSS', () => {
         it('debe aplicar la clase product-card a cada tarjeta de producto', () => {
-            const { container } = render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            const { container } = render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const productCards = container.querySelectorAll('.product-card')
             expect(productCards.length).toBe(productos.length)
         })
 
         it('debe aplicar la clase btn-add-cart a los botones de agregar', () => {
-            const { container } = render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            const { container } = render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const addButtons = container.querySelectorAll('.btn-add-cart')
             expect(addButtons.length).toBe(productos.length)
         })
 
         it('debe mostrar el ícono del carrito en el botón', () => {
-            const { container } = render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            const { container } = render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const cartIcons = container.querySelectorAll('.bi-cart-plus')
             expect(cartIcons.length).toBe(productos.length)
         })
 
         it('debe aplicar la clase category-section a cada sección', () => {
-            const { container } = render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            const { container } = render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const categorySections = container.querySelectorAll('.category-section')
             expect(categorySections.length).toBe(4) // 4 categorías
         })
 
         it('debe mostrar el código del producto con la clase product-code', () => {
-            const { container } = render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            const { container } = render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const productCodes = container.querySelectorAll('.product-code')
             expect(productCodes.length).toBe(productos.length)
         })
 
         it('debe mostrar el badge de stock con la clase stock-badge', () => {
-            const { container } = render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            const { container } = render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const stockBadges = container.querySelectorAll('.stock-badge')
             expect(stockBadges.length).toBe(productos.length)
@@ -333,19 +338,18 @@ describe('CardsComponent', () => {
     })
 
     describe('Props y validación', () => {
-        it('debe requerir la prop onAddToCart', () => {
-            // No debe lanzar error al renderizar sin la prop
-            expect(() => render(<CardsComponent />)).not.toThrow()
+        it('debe renderizar sin productos cuando la prop es vacía', () => {
+            expect(() => render(<CardsComponent productos={[]} />)).not.toThrow()
         })
 
         it('debe funcionar correctamente con la prop onAddToCart proporcionada', () => {
-            expect(() => render(<CardsComponent onAddToCart={mockOnAddToCart} />)).not.toThrow()
+            expect(() => render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)).not.toThrow()
         })
     })
 
     describe('Formato de precios', () => {
         it('debe formatear los precios correctamente en formato CLP', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             productos.forEach(producto => {
                 const precioFormateado = `$${producto.precio.toLocaleString('es-CL')} CLP/${producto.unidad}`
@@ -356,21 +360,21 @@ describe('CardsComponent', () => {
 
     describe('Accesibilidad', () => {
         it('debe tener inputs de tipo number con roles adecuados', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const numberInputs = screen.getAllByRole('spinbutton')
             expect(numberInputs.length).toBe(productos.length)
         })
 
         it('debe tener botones con texto descriptivo', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             const buttons = screen.getAllByRole('button', { name: /Agregar al Carrito/i })
             expect(buttons.length).toBe(productos.length)
         })
 
         it('debe tener imágenes con texto alternativo', () => {
-            render(<CardsComponent onAddToCart={mockOnAddToCart} />)
+            render(<CardsComponent onAddToCart={mockOnAddToCart} productos={productos} />)
             
             productos.forEach(producto => {
                 const images = screen.getAllByAltText(producto.nombre)
