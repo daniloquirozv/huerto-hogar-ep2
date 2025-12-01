@@ -15,6 +15,7 @@ import { obtenerProductos } from './service/productosService';
 import { getCartForUser, saveCartForUser, clearCartForUser, migrateGuestCartToUser } from './utils/cartUtils';
 
 function App() {
+  // Implementación del estado global y lógica de la aplicación
   // Estado global del usuario - inicializado desde localStorage
   const [currentUser, setCurrentUser] = useState(() => {
     try {
