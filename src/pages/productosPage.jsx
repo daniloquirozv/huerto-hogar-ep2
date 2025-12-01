@@ -59,16 +59,19 @@ function productosPage({ onAddToCart, cartItems, onUpdateQuantity, onRemoveItem 
     };
 
     // Manejar actualización de producto después de agregar al carrito
-    const handleAddToCart = async (producto, quantity) => {
-        try {
-            // Primero agregar al carrito local
-            onAddToCart(producto, quantity);
-            
-            // Recargar productos para reflejar cambios de stock
-            await cargarProductosDesdeAPI();
-        } catch (err) {
-            console.error('Error al actualizar producto:', err);
-        }
+    const handleAddToCart = (producto, quantity) => {
+        // Agregar al carrito
+        onAddToCart(producto, quantity);
+        
+        // Opcional: actualizar el stock localmente sin recargar toda la API
+        // Si necesitas reflejar cambios de stock, actualiza solo ese producto
+        setProductos(prevProductos => 
+            prevProductos.map(p => 
+                p.id === producto.id 
+                    ? { ...p, stock: p.stock - quantity }
+                    : p
+            )
+        );
     };
 
     if (loading) {
